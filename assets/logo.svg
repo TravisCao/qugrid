@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 810 200" width="810" height="200" role="img" aria-label="QuGrid: quantum computing for power system research">
+  <!-- Grid glyph: a 7-bus network being split into two islands.
+       Blue island / orange island; the center bus oscillates between the two
+       assignments (a binary decision variable before measurement); dashed
+       edges are the candidate cut set. -->
+  <g stroke-linecap="round">
+    <!-- ring edges (within-island: solid; cross-island: dashed) -->
+    <g stroke="#c3c2b7" stroke-width="2.5" fill="none">
+      <path d="M100 38 L46.3 69"/>
+      <path d="M46.3 69 L46.3 131"/>
+      <path d="M100 162 L153.7 131"/>
+      <path d="M153.7 131 L153.7 69"/>
+    </g>
+    <g stroke="#898781" stroke-width="2.5" fill="none" stroke-dasharray="7 6">
+      <path d="M46.3 131 L100 162">
+        <animate attributeName="stroke-dashoffset" values="0;-26" dur="2.6s" repeatCount="indefinite"/>
+      </path>
+      <path d="M153.7 69 L100 38">
+        <animate attributeName="stroke-dashoffset" values="0;-26" dur="2.6s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <!-- spokes to the undecided center bus -->
+    <g stroke="#c3c2b7" stroke-width="2" fill="none">
+      <path d="M100 100 L100 38"/>
+      <path d="M100 100 L46.3 131"/>
+      <path d="M100 100 L153.7 131"/>
+    </g>
+    <!-- island A (blue) -->
+    <g fill="#2a78d6" stroke="#fcfcfb" stroke-width="2">
+      <circle cx="100" cy="38" r="10"/>
+      <circle cx="46.3" cy="69" r="10"/>
+      <circle cx="153.7" cy="69" r="10"/>
+    </g>
+    <!-- island B (orange) -->
+    <g fill="#eb6834" stroke="#fcfcfb" stroke-width="2">
+      <circle cx="46.3" cy="131" r="10"/>
+      <circle cx="100" cy="162" r="10"/>
+      <circle cx="153.7" cy="131" r="10"/>
+    </g>
+    <!-- center bus: superposed assignment -->
+    <circle cx="100" cy="100" r="12" stroke="#fcfcfb" stroke-width="2" fill="#2a78d6">
+      <animate attributeName="fill" values="#2a78d6;#2a78d6;#eb6834;#eb6834;#2a78d6" keyTimes="0;0.35;0.5;0.85;1" dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="12;13.5;12;13.5;12" dur="6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <!-- wordmark -->
+  <g font-family="Avenir Next, Inter, Segoe UI, Helvetica Neue, Arial, sans-serif">
+    <text x="215" y="112" font-size="64" font-weight="700" fill="#0b0b0b" letter-spacing="-1">QuGrid</text>
+    <text x="218" y="150" font-size="19" font-weight="400" fill="#52514e" letter-spacing="0.2">quantum computing for power system research</text>
+  </g>
+</svg>

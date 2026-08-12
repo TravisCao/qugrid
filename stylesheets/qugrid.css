@@ -1,0 +1,19 @@
+:root {
+  --md-primary-fg-color: #2a78d6;
+  --md-primary-fg-color--light: #cde2fb;
+  --md-primary-fg-color--dark: #0d366b;
+  --md-accent-fg-color: #eb6834;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #7fb2ec;
+  --md-accent-fg-color: #f1926b;
+}
+
+.md-typeset h1 {
+  font-weight: 700;
+}
+
+.md-typeset table:not([class]) {
+  font-size: 0.72rem;
+}
