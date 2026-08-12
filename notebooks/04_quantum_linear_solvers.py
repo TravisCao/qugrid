@@ -14,7 +14,7 @@
 #
 # 1. Derive the DC power flow system from the case data, in five lines.
 # 2. Solve it with a classical solver, with HHL, and with VQLS.
-# 3. Take HHL's error apart into three numbers that measure different things, and
+# 3. Take HHL’s error apart into three numbers that measure different things, and
 #    see why reporting one of them alone is misleading.
 # 4. Measure the condition number of real power system matrices and say what it
 #    costs.
@@ -213,7 +213,7 @@ plt.show()
 # * **Fidelity against the exact solution** — how well the *direction* of the
 #   returned vector matches. It is already 0.999927 at four clock bits, where the
 #   relative error is still 2.3 percent. Fidelity is nearly blind to the scale
-#   factor, and HHL's scale has to be restored classically. A paper reporting only
+#   factor, and HHL’s scale has to be restored classically. A paper reporting only
 #   fidelity is reporting the easy half of the problem.
 # * **Postselection probability** — the fraction of hardware runs that survive the
 #   ancilla measurement. It falls by a factor of about 18 per two clock bits, from
@@ -239,18 +239,44 @@ plt.show()
 # smallest eigenvalue sets the smallest usable rotation.
 
 # %%
+cases = ("toy3", "case5", "case9", "case14", "case30", "case57", "case118")
+sizes, kappas, densities = [], [], []
+
 print(f"{'case':>9} {'unknowns':>9} {'kappa':>10} {'lambda_min':>11} {'lambda_max':>11} "
       f"{'symmetric':>10} {'density':>8}")
-for name in ("toy3", "case5", "case9", "case14", "case30", "case57", "case118"):
+for name in cases:
     lp = dc_power_flow(qg.cases.load_case(name))
     eigenvalues = np.linalg.eigvalsh(lp.a)
     density = np.count_nonzero(lp.a) / lp.n**2
+    sizes.append(lp.n)
+    kappas.append(lp.condition_number())
+    densities.append(density)
     print(
         f"{name:>9} {lp.n:>9} {lp.condition_number():>10.1f} {eigenvalues.min():>11.4f} "
         f"{eigenvalues.max():>11.2f} {str(lp.is_hermitian):>10} {density:>8.3f}"
     )
 
+# %%
+fig, (left, right) = plt.subplots(1, 2, figsize=(9.8, 3.6))
+left.loglog(sizes, kappas, "o-", color=qg.viz.PALETTE[0])
+for name, n, k in zip(cases, sizes, kappas):
+    left.annotate(name, (n, k), xytext=(5, -8), textcoords="offset points",
+                  fontsize=8, color=qg.viz.MUTED)
+left.set_xlabel("unknowns (buses minus slack)")
+left.set_ylabel(r"condition number $\kappa$")
+
+right.loglog(sizes, densities, "o-", color=qg.viz.PALETTE[1])
+right.set_xlabel("unknowns (buses minus slack)")
+right.set_ylabel("matrix density")
+fig.suptitle("DC power flow matrices: conditioning worsens, sparsity improves", y=1.03)
+plt.tight_layout()
+plt.show()
+
 # %% [markdown]
+# The two panels move in opposite directions as the network grows: the condition
+# number rises by three orders of magnitude while the matrix density falls by one.
+# Both trends matter for quantum linear solvers, and they do not cancel.
+#
 # Two properties of these matrices are genuinely favourable, and one is not.
 #
 # **Favourable: `B'` is symmetric.** HHL requires a Hermitian matrix. A
@@ -262,13 +288,13 @@ for name in ("toy3", "case5", "case9", "case14", "case30", "case57", "case118"):
 # **Favourable: `B'` is positive definite and sparse.** Every eigenvalue is
 # positive, so there is no ambiguity of sign in the eigenvalue inversion, and the
 # matrix density falls from 0.375 at nine buses to 0.034 at 118 buses. Sparsity is
-# one of the conditions under which HHL's complexity claim holds at all.
+# one of the conditions under which HHL’s complexity claim holds at all.
 #
 # **Not favourable: `kappa` grows with system size.** It runs from 3 on the
 # three-bus system to about 2900 on the IEEE 118-bus system, driven by the
-# smallest eigenvalue falling toward 0.2 while the largest keeps growing. HHL's
-# cost scales polynomially in `kappa`, so "power flow matrices are well
-# conditioned" is only true relative to a general dense system. At realistic
+# smallest eigenvalue falling toward 0.2 while the largest keeps growing. HHL’s
+# cost scales polynomially in `kappa`, so “power flow matrices are well
+# conditioned” is only true relative to a general dense system. At realistic
 # transmission-system sizes `kappa` is in the thousands, and that is a cost, not a
 # footnote.
 #
@@ -351,7 +377,7 @@ print("inner residuals ||J dx + F||     :", scientific(hybrid.inner_residuals))
 
 # %% [markdown]
 # The mismatch falls from 1.6 to `3e-7` per unit in four iterations, roughly
-# squaring the number of correct digits each time. That is Newton's quadratic
+# squaring the number of correct digits each time. That is Newton’s quadratic
 # convergence, and it is fragile: it depends on each inner solve being accurate.
 # An inner solver that returns a 5 percent error destroys it, and the outer loop
 # either stalls or needs many more iterations.
@@ -428,10 +454,10 @@ for name in ("case9", "case118"):
 #
 # The starting points in the power system literature:
 #
-# * F. Feng, Y. Zhou, P. Zhang, "Quantum Power Flow", IEEE Transactions on Power
+# * F. Feng, Y. Zhou, P. Zhang, “Quantum Power Flow”, IEEE Transactions on Power
 #   Systems, volume 36, number 4, 2021, arXiv:2104.04888 — HHL applied to power
 #   flow, with the error analysis this notebook reproduces in miniature.
-# * R. Eskandarpour et al., "Quantum-Enhanced Grid of the Future: A Primer", IEEE
+# * R. Eskandarpour et al., “Quantum-Enhanced Grid of the Future: A Primer”, IEEE
 #   Access, volume 8, 2020 — the survey of where quantum algorithms touch power
 #   system computation.
 #

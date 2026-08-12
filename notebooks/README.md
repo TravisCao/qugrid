@@ -12,8 +12,8 @@ notebook that makes it.
 | --- | --- | --- | --- | --- |
 | 1 | [`01_hello_qugrid`](01_hello_qugrid.ipynb) | 15 | MATPOWER case format. No quantum computing. | State what a QUBO is, encode controlled islanding as one, run three solvers on it, and read every field of a `Result`. |
 | 2 | [`02_from_matpower_to_qubo`](02_from_matpower_to_qubo.ipynb) | 30 | Notebook 1 | Load your own `.m` file, read case arrays by column name, build an economic dispatch QUBO by hand, and choose penalty weights that work. |
-| 3 | [`03_quantum_optimization_101`](03_quantum_optimization_101.ipynb) | 45 | Notebooks 1 and 2 | Explain amplitudes, the Ising form, and what QAOA's two angles per layer do — including the depth-1 cost landscape drawn in full. |
-| 4 | [`04_quantum_linear_solvers`](04_quantum_linear_solvers.ipynb) | 30 | Notebook 1 | Derive DC power flow as `A x = b`, solve it with HHL and VQLS, take HHL's error apart into three numbers, and run AC power flow with a quantum inner solver. |
+| 3 | [`03_quantum_optimization_101`](03_quantum_optimization_101.ipynb) | 45 | Notebooks 1 and 2 | Explain amplitudes, the Ising form, and what QAOA’s two angles per layer do — including the depth-1 cost landscape drawn in full. |
+| 4 | [`04_quantum_linear_solvers`](04_quantum_linear_solvers.ipynb) | 30 | Notebook 1 | Derive DC power flow as `A x = b`, solve it with HHL and VQLS, take HHL’s error apart into three numbers, and run AC power flow with a quantum inner solver. |
 | 5 | [`05_qml_for_screening`](05_qml_for_screening.ipynb) | 30 | Notebook 1 | Build an N-1 security classification task from any network, compare a quantum kernel against a tuned classical one, and fit a quantum Boltzmann machine to wind scenarios. |
 
 Notebooks 4 and 5 cover algorithm families independent of notebooks 2 and 3, so

@@ -100,11 +100,10 @@ def booktabs(summary: pd.DataFrame, caption: str) -> str:
 def save_artifacts(df: pd.DataFrame, config: dict) -> tuple[Path, str]:
     """Write results.csv, summary.csv, summary.tex, and config.json.
 
-    ``qugrid.bench.save_run`` writes the same four files and is used when it
-    can. Its LaTeX step needs jinja2, because pandas routes
-    ``DataFrame.to_latex`` through its Styler from version 2.0 onward, and
-    jinja2 is not a QuGrid dependency. The local writer keeps the run
-    reproducible in either environment.
+    ``qugrid.bench.save_run`` writes the same four files (its LaTeX writer
+    is hand-rolled booktabs with no template dependency) and is preferred.
+    The local writer keeps the run reproducible even in an environment
+    where the library call fails.
     """
     try:
         return bench.save_run(df, RUNDIR, config=config, caption=CAPTION), "qugrid.bench"
@@ -115,7 +114,7 @@ def save_artifacts(df: pd.DataFrame, config: dict) -> tuple[Path, str]:
         summary.to_csv(RUNDIR / "summary.csv", index=False)
         (RUNDIR / "summary.tex").write_text(booktabs(summary, CAPTION))
         (RUNDIR / "config.json").write_text(json.dumps(config, indent=2))
-        return RUNDIR, "local writer (jinja2 not installed)"
+        return RUNDIR, "local writer"
 
 
 def build_problems() -> dict[str, CombinatorialProblem]:

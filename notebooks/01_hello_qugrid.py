@@ -79,8 +79,8 @@ plt.show()
 # 2. **Balance each island.** An island whose generation and load differ by a
 #    large amount collapses in frequency. The imbalance is squared, so a 20 MW
 #    error is four times worse than a 10 MW error.
-# 3. **Produce two islands of comparable size.** Otherwise the answer "do not
-#    split at all" always wins, which is not a split.
+# 3. **Produce two islands of comparable size.** Otherwise the answer “do not
+#    split at all” always wins, which is not a split.
 #
 # These three terms are what `qg.problems.Islanding` encodes.
 
@@ -148,7 +148,7 @@ for label, x in candidates.items():
 # The no-split assignment scores 49.13. It is marked infeasible because it puts
 # every bus on one side, so it is not a split at all. The bus-number split scores
 # 1457.28: it cuts three lines and leaves one island with a 320 MW surplus against
-# the other island's 315 MW deficit. The squared imbalance term dominates, which
+# the other island’s 315 MW deficit. The squared imbalance term dominates, which
 # is the intended behaviour — an unbalanced island is the expensive failure.
 #
 # ## 1.5 Solving

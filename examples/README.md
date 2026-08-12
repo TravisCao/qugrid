@@ -95,9 +95,6 @@ statevector simulator holds at most 22 qubits, so QAOA cannot run on it. Script
 04 covers the 9-bus and 14-bus instances with simulated annealing, which has no
 such limit.
 
-Script 07 writes its LaTeX table with `qugrid.bench.save_run` when it can, and
-with a local writer otherwise. `qugrid.bench.to_latex` calls
-`pandas.DataFrame.to_latex`, which pandas routes through its Styler from version
-2.0 onward, and the Styler needs jinja2. jinja2 is not a declared runtime
-dependency of QuGrid, so an install that takes only the declared dependencies
-reaches the local writer. The output line names which writer ran.
+Script 07 writes its LaTeX table with `qugrid.bench.save_run`, whose writer
+builds booktabs LaTeX by hand and needs only the core dependencies. The script
+keeps a local writer as a fallback, and its output line names which writer ran.

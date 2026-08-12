@@ -58,7 +58,7 @@ class EconomicDispatchQUBO(CombinatorialProblem):
             bld.add_squared_penalty(p_terms, gen.pmin, weight=gen.c2)
             for i, coef in p_terms:
                 bld.add_linear(i, gen.c1 * coef)
-            offset += gen.c1 * 0.0 + gen.c0  # c0 always paid (all units on)
+            offset += gen.c1 * gen.pmin + gen.c0  # constant cost terms (all units on)
             balance_terms.extend(p_terms)
         total_pmin = float(sum(g.pmin for g in self.gens))
         bld.add_squared_penalty(

@@ -8,7 +8,7 @@
 #
 # * **Classification** — decide whether an operating point is N-1 secure, using a
 #   quantum kernel against a classical one. The result is a warning: the quantum
-#   kernel's accuracy swings from competitive to chance level on a single
+#   kernel’s accuracy swings from competitive to chance level on a single
 #   hyperparameter, and this notebook measures that swing.
 # * **Generation** — learn the joint distribution of wind profiles with a quantum
 #   Boltzmann machine, which is the model behind scenario generation for
@@ -39,7 +39,7 @@ np.set_printoptions(precision=4, suppress=True)
 # **What operators do.** The N-1 criterion requires the system to survive the loss
 # of any single element. Checking it means running a power flow for every credible
 # contingency, at every operating point of interest. In planning studies and in
-# stochastic scheduling, "every operating point of interest" runs to thousands of
+# stochastic scheduling, “every operating point of interest” runs to thousands of
 # load and generation patterns, and each one carries a full contingency sweep.
 # That is why fast surrogate classifiers are studied: a model that flags the small
 # fraction of patterns needing a full sweep would remove most of the work.
@@ -282,7 +282,7 @@ plt.show()
 # %% [markdown]
 # Read the two panels together, because the right one explains the left one.
 #
-# On the left, the quantum kernel's test accuracy falls from 0.950 at bandwidth
+# On the left, the quantum kernel’s test accuracy falls from 0.950 at bandwidth
 # `0.25 pi` to 0.567 at `pi` and 0.467 at `2 pi` — from matching the classical
 # kernel to below the chance baseline of 0.517. Training accuracy stays high
 # throughout, at 0.779 even at the worst setting. A model that fits its training
@@ -294,14 +294,14 @@ plt.show()
 # On the right is the mechanism. The average similarity between a training point
 # and its **nearest neighbour** in feature space drops from 0.871 to 0.228 as
 # bandwidth grows, while the average similarity over *all* pairs barely moves,
-# from 0.213 to 0.128. At `2 pi` a point's closest neighbour looks no more similar
+# from 0.213 to 0.128. At `2 pi` a point’s closest neighbour looks no more similar
 # than a randomly chosen sample. The feature map has spread the states so far
 # apart that they are nearly orthogonal, the kernel matrix is nearly the identity,
 # and a kernel machine on an identity matrix memorizes the training set and
 # predicts nothing.
 #
-# This is the finding of R. Shaydulin and S. M. Wild, "Importance of kernel
-# bandwidth in quantum machine learning", Physical Review A 106, 042407, 2022,
+# This is the finding of R. Shaydulin and S. M. Wild, “Importance of kernel
+# bandwidth in quantum machine learning”, Physical Review A 106, 042407, 2022,
 # arXiv:2111.05451, reproduced on a power system dataset. The practical rules that
 # follow:
 #
@@ -344,13 +344,13 @@ plt.show()
 # A **quantum Boltzmann machine** is a transverse-field Ising model used as a
 # probability distribution: each configuration of spins gets a probability from
 # the thermal state of the Hamiltonian, and training adjusts the fields and
-# couplings until the model's moments match the data's. QuGrid computes the
+# couplings until the model’s moments match the data’s. QuGrid computes the
 # thermal state by exact diagonalization, which is trustworthy up to 12 units and
 # makes the hardware argument concrete — sampling is the bottleneck, and that is
 # exactly where an annealer or a gate-model device would enter.
 #
 # The model is binary, so the profiles are thresholded at their global median:
-# 1 means "output above the median in this period".
+# 1 means “output above the median in this period”.
 
 # %%
 bits = binarize(profiles)
@@ -377,7 +377,7 @@ plt.show()
 
 # %% [markdown]
 # The mismatch is the quantity the update rule provably decreases, following
-# M. H. Amin et al., "Quantum Boltzmann Machine", Physical Review X 8, 021050,
+# M. H. Amin et al., “Quantum Boltzmann Machine”, Physical Review X 8, 021050,
 # 2018, arXiv:1601.02036. It falls by two orders of magnitude and flattens, which
 # is the expected shape: the model has 21 parameters and cannot match every moment
 # of the data exactly.
@@ -481,7 +481,7 @@ print("total variation distance over all 64 patterns:", round(float(total_variat
 # * Bandwidth — the angle range the features are mapped into — moved test accuracy
 #   from 0.950 to 0.467 on this data set while training accuracy stayed high.
 #   Report it, tune it, and report the training accuracy beside the test accuracy.
-# * A quantum Boltzmann machine with 21 parameters reproduced the wind data's
+# * A quantum Boltzmann machine with 21 parameters reproduced the wind data’s
 #   marginals to 0.003 and its neighbour correlations to 0.021, at a total
 #   variation distance of 0.063 from the empirical distribution.
 #

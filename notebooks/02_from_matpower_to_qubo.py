@@ -163,10 +163,9 @@ print("branches in service, N-1     :", int(outage.branch_on.sum()))
 #
 # The bits count from 0 to `2^K - 1`, so the expression reaches `2^K` equally
 # spaced outputs from `pmin` to `pmax`, adjacent ones `delta_g` apart. `delta_g`
-# is the **discretization step**:
-# the finest output change the encoding can represent. It is the first quantity to
-# report in any QUBO dispatch study, because the answer can never be more precise
-# than one step.
+# is the **discretization step**: the finest output change the encoding can
+# represent. It is the first quantity to report in any QUBO dispatch study,
+# because the answer can never be more precise than one step.
 
 # %%
 gens = [
@@ -239,19 +238,35 @@ print("variables         ", by_hand.names)
 print("Q identical to the library formulation:", np.allclose(by_hand.q, library.qubo.q))
 print("offset by hand    ", round(by_hand.offset, 3))
 print("offset in library ", round(library.qubo.offset, 3))
-print("difference        ", round(by_hand.offset - library.qubo.offset, 3))
-print("sum of c1 * pmin  ", sum(g.c1 * g.pmin for g in gens))
+print("offsets identical :", np.isclose(by_hand.offset, library.qubo.offset))
+
+# %%
+fig, axes = plt.subplots(1, 2, figsize=(9.6, 4.0))
+qg.viz.plot_qubo(by_hand, ax=axes[0], title="built by hand")
+qg.viz.plot_qubo(library.qubo, ax=axes[1], title="EconomicDispatchQUBO")
+plt.tight_layout()
+plt.show()
 
 # %% [markdown]
-# The `Q` matrices match exactly. The constants differ by 900, which is exactly
-# `sum_g c1_g * pmin_g`: the library formulation leaves that term out of the QUBO
-# constant. A constant shifts every state by the same amount, so it cannot change
-# which state is the minimum, and both formulations return the same dispatch. It
-# does change what `result.objective` means. **Read `result.decoded["cost"]` for
-# the dollars-per-hour number, not `result.objective`.**
+# The two coefficient matrices are indistinguishable. The block structure comes
+# from the balance penalty: it couples every power bit to every other, including
+# bits belonging to different units, because all of them appear in the same
+# squared term. Cost terms only ever couple bits within one unit, so a QUBO with
+# no balance penalty would show two blocks along the diagonal and nothing else.
+#
+# The `Q` matrices and the constants both match: the eleven-line loop above *is*
+# the library formulation. That is the property to demand from any encoding you
+# use — you can rebuild it by hand and check every coefficient.
+#
+# One reading habit still matters. At the optimum of a balanced instance the
+# QUBO objective equals the generation cost, but away from balance it also
+# carries the penalty term `weight * (imbalance)^2`. **Read
+# `result.decoded["cost"]` for the dollars-per-hour number**; `result.objective`
+# is the quantity the solver minimizes, and the two agree only when the balance
+# constraint is met exactly.
 #
 # The check below confirms both statements on this instance: same minimizer, and
-# the hand-built objective equals the decoded cost.
+# the objective at the balanced optimum equals the decoded cost.
 
 # %%
 solution = qg.solve(library, solver="exact")
@@ -382,7 +397,7 @@ plt.show()
 # **power imbalance first**, and uses cost only to break ties between dispatches
 # with equal imbalance. That ordering is deliberate — an operator does not accept
 # a cheaper schedule that fails to serve the load — but it must be stated, because
-# it is not what "minimize cost subject to a balance constraint" means when the
+# it is not what “minimize cost subject to a balance constraint” means when the
 # demand is not exactly reachable on the discretization grid.
 #
 # Two instances make the difference visible. First, a demand that the grid can

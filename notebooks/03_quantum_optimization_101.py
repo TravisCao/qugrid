@@ -71,7 +71,7 @@ print("tie line coupling 1/x    :", two_bus.edges()[0][2])
 # The islanding formulation weights three terms (notebook 1, section 1.2): cut
 # weight, squared power imbalance, and size balance. The library default for the
 # size-balance weight `beta` is deliberately small — it is a tie-breaker, not a
-# driver. On a two-bus graph that default makes "do not split" the minimum, which
+# driver. On a two-bus graph that default makes “do not split” the minimum, which
 # is correct engineering and a dull first example. Setting `beta` explicitly makes
 # the balanced split the minimum, so there is something to find.
 
@@ -217,7 +217,7 @@ print("cost Hamiltonian (one entry per bitstring):", cost)
 # One implementation detail matters for reading the figures. QuGrid rescales the
 # cost array to the range `[0, 1]` before exponentiating, so that a useful `gamma`
 # sits in the same numeric range for every problem. Reported objective values stay
-# in the problem's own units.
+# in the problem’s own units.
 #
 # The entire algorithm is five lines.
 
@@ -425,8 +425,8 @@ print(f"{'qaoa':>7}: {1000 * runs[5].resources['wall_time_s']:7.1f} ms   "
 #   comparison, which is why QuGrid ships it as a first-class solver.
 #
 # For a published example of this workflow on unit commitment, see A. Koretsky et
-# al., "Adapting Quantum Approximation Optimization Algorithm (QAOA) for Unit
-# Commitment", IEEE International Conference on Quantum Computing and Engineering,
+# al., “Adapting Quantum Approximation Optimization Algorithm (QAOA) for Unit
+# Commitment”, IEEE International Conference on Quantum Computing and Engineering,
 # 2021, arXiv:2110.12624 — the formulation that `qg.problems.UnitCommitment`
 # follows.
 #
