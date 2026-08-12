@@ -64,7 +64,7 @@ Same problem object, three solvers, one comparison — that is the library's cor
 ## Or run everything at once
 
 ```bash
-qugrid demo --figure islands.png
+qugrid demo --save islands.png
 ```
 
 ## Next

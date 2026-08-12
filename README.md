@@ -33,7 +33,7 @@ Between MATPOWER/pandapower and Qiskit/Ocean/PennyLane there is a gap where rese
 
 <p align="center"><img alt="QuGrid architecture" src="docs/assets/architecture.svg" width="860"></p>
 
-1. **Power problems** speak engineering units. `UnitCommitment`, `Islanding`, `PMUPlacement`, `EconomicDispatchQUBO`, `dc_power_flow`, N-1 `screening_dataset`, wind scenarios — built on a `Network` class that keeps MATPOWER column semantics, loads MATPOWER `.m` files directly, converts from pandapower, and bundles seven IEEE test cases (9 to 118 buses).
+1. **Power problems** speak engineering units. `UnitCommitment`, `Islanding`, `PMUPlacement`, `EconomicDispatchQUBO`, `dc_power_flow`, N-1 `screening_dataset`, wind scenarios — built on a `Network` class that keeps MATPOWER column semantics, loads MATPOWER `.m` files directly, converts from pandapower, and bundles seven standard test cases (PJM 5-bus to IEEE 118-bus).
 2. **Encodings** are exact, tested algebra: `QUBO ⇄ Ising` with pinned conventions, a `QUBOBuilder` with exact squared-penalty expansion for your own formulations, `LinearSystemProblem` with power-of-two padding and Hermitian dilation. The test suite enforces all of it at 1e-9.
 3. **Solvers** run on a pure-NumPy statevector core — QAOA, VQE, HHL, VQLS, fidelity quantum kernels, a quantum Boltzmann machine — **with zero quantum SDK dependencies**, next to the classical baselines every claim must face: exact enumeration, seeded simulated annealing, LU, Newton–Raphson. The same problem objects export to Qiskit, D-Wave Ocean, and PennyLane when you want vendor stacks or hardware.
 
@@ -110,4 +110,4 @@ The highest-value contribution is a problem formulation from your own research: 
 
 ## License
 
-MIT. Bundled IEEE case data derives from [MATPOWER](https://matpower.org/) test cases (BSD 3-clause).
+MIT. Bundled test case data derives from [MATPOWER](https://matpower.org/) test cases (BSD 3-clause).

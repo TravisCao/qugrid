@@ -17,7 +17,7 @@ QuGrid is a research library for power system scholars who want to study quantum
 
 ## What it gives you
 
-- **Your data, unchanged.** MATPOWER cases, pandapower networks, and seven bundled IEEE test systems (9–118 bus), with MATPOWER column semantics throughout.
+- **Your data, unchanged.** MATPOWER cases, pandapower networks, and seven bundled standard test systems (PJM 5-bus to IEEE 118-bus), with MATPOWER column semantics throughout.
 - **Grid problems, pre-formulated.** Unit commitment, controlled islanding, PMU placement, economic dispatch, DC/AC power flow, N-1 security screening, scenario generation — each with documented encodings and decoders back to engineering units.
 - **A zero-dependency quantum core.** Exact statevector simulation of QAOA, VQE, HHL, VQLS, quantum kernels, and a quantum Boltzmann machine, in pure NumPy. No SDK, no account, no compiler.
 - **Classical baselines in the same run.** Exact enumeration, simulated annealing, LU, Newton–Raphson — every `Result` carries its `gap()` against them.

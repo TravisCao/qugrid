@@ -33,7 +33,7 @@ QuGrid 服务两类研究者:想研究量子算法、但**不想离开本领域�
 
 <p align="center"><img alt="QuGrid 架构" src="docs/assets/architecture.svg" width="860"></p>
 
-1. **电力问题层**使用工程单位。`UnitCommitment`(机组组合)、`Islanding`(主动解列)、`PMUPlacement`(PMU 最优配置)、`EconomicDispatchQUBO`(经济调度)、`dc_power_flow`(直流潮流)、N-1 安全校核数据集、风电场景生成——全部构建在 `Network` 类上:保留 MATPOWER 列语义、直接读取 MATPOWER `.m` 文件、支持 pandapower 转换、内置 7 个 IEEE 标准算例(9 到 118 节点)。
+1. **电力问题层**使用工程单位。`UnitCommitment`(机组组合)、`Islanding`(主动解列)、`PMUPlacement`(PMU 最优配置)、`EconomicDispatchQUBO`(经济调度)、`dc_power_flow`(直流潮流)、N-1 安全校核数据集、风电场景生成——全部构建在 `Network` 类上:保留 MATPOWER 列语义、直接读取 MATPOWER `.m` 文件、支持 pandapower 转换、内置 7 个标准算例(PJM 5 节点到 IEEE 118 节点)。
 2. **数学编码层**是精确、有测试的代数:约定固定的 `QUBO ⇄ Ising` 互转、带精确平方惩罚展开的 `QUBOBuilder`(用于你自己的新问题)、带 2 的幂填充与 Hermitian 扩张的 `LinearSystemProblem`。测试套件在 1e-9 精度上验证全部约定。
 3. **求解器层**运行在纯 NumPy 态矢量内核上——QAOA、VQE、HHL、VQLS、量子核方法、量子玻尔兹曼机——**不依赖任何量子 SDK**;旁边就是每个结论都必须面对的经典基线:精确枚举、固定种子模拟退火、LU 分解、牛顿-拉夫逊。同一个问题对象可一键导出到 Qiskit、D-Wave Ocean、PennyLane,用于厂商工具链或真机。
 
@@ -111,4 +111,4 @@ qugrid demo                 # 30 秒端到端自检
 
 ## 许可证
 
-MIT。内置 IEEE 算例数据来自 [MATPOWER](https://matpower.org/) 测试算例(BSD 3-clause)。
+MIT。内置算例数据来自 [MATPOWER](https://matpower.org/) 测试算例(BSD 3-clause)。

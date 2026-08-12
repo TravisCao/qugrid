@@ -64,7 +64,7 @@ for s in ("exact", "sa", "qaoa"):
 ## 一条命令跑完整演示
 
 ```bash
-qugrid demo --figure islands.png
+qugrid demo --save islands.png
 ```
 
 ## 下一步

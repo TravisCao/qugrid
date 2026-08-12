@@ -13,7 +13,7 @@
     <rect x="230" y="18" width="130" height="30" rx="15" fill="#f0efec" stroke="#c3c2b7"/>
     <text x="295" y="38" text-anchor="middle">pandapower net</text>
     <rect x="380" y="18" width="190" height="30" rx="15" fill="#f0efec" stroke="#c3c2b7"/>
-    <text x="475" y="38" text-anchor="middle">bundled IEEE 5–118 bus</text>
+    <text x="475" y="38" text-anchor="middle">bundled cases 5–118 bus</text>
   </g>
   <g stroke="#898781" stroke-width="1.5" marker-end="url(#arr)">
     <path d="M135 48 L135 74" fill="none"/>

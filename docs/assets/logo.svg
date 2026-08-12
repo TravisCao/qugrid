@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 200" width="760" height="200" role="img" aria-label="QuGrid: quantum computing for power system research">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 810 200" width="810" height="200" role="img" aria-label="QuGrid: quantum computing for power system research">
   <!-- Grid glyph: a 7-bus network being split into two islands.
        Blue island / orange island; the center bus oscillates between the two
        assignments (a binary decision variable before measurement); dashed
