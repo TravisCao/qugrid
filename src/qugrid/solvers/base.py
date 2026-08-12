@@ -75,7 +75,8 @@ class Result:
             if isinstance(val, (int, float, np.floating)):
                 lines.append(f"  {key:<18} {val:,.6g}")
             elif isinstance(val, tuple) and all(isinstance(v, (int, float)) for v in val):
-                lines.append(f"  {key:<18} {tuple(round(float(v), 4) for v in val)}")
+                shown = tuple(v if isinstance(v, (bool, int)) else round(float(v), 4) for v in val)
+                lines.append(f"  {key:<18} {shown}")
         if self.resources:
             res = ", ".join(f"{k}={v}" for k, v in self.resources.items())
             lines.append(f"  resources          {res}")
