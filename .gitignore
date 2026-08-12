@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+.python-version
+
+# Tools
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# Docs build
+site/
+
+# OS
+.DS_Store
+
+# Experiment outputs (zoo/bench runs)
+results/
+runs/
