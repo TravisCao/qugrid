@@ -11,7 +11,7 @@ First public release.
 ### Added
 
 - `Network` data model with MATPOWER column semantics; MATPOWER `.m` parser;
-  pandapower converter; seven bundled IEEE test cases (5–118 bus) and a 3-bus
+  pandapower converter; seven bundled standard test cases (PJM 5-bus to IEEE 118-bus) and a 3-bus
   teaching microgrid.
 - Classical references: DC power flow, polar Newton–Raphson AC power flow,
   KKT economic dispatch, exact unit-commitment enumeration.

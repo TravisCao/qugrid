@@ -16,7 +16,7 @@ qugrid doctor
 
 ## Solve your first problem — three lines
 
-Controlled islanding of the IEEE 9-bus system: after a disturbance, split the grid into two self-sufficient islands, cutting as little capacity as possible while keeping generation and load balanced inside each island.
+Controlled islanding of the WSCC 9-bus system: after a disturbance, split the grid into two self-sufficient islands, cutting as little capacity as possible while keeping generation and load balanced inside each island.
 
 ```python
 import qugrid as qg

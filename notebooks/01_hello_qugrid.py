@@ -20,7 +20,7 @@
 # returns, and which part of the pipeline is quantum.
 
 # %%
-# Everything this notebook uses. QuGrid needs only NumPy, SciPy, and matplotlib.
+# Everything this notebook uses. QuGrid needs only NumPy, SciPy, matplotlib, and pandas.
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -87,9 +87,9 @@ plt.show()
 # %% [markdown]
 # ## 1.3 What a QUBO is
 #
-# QUBO stands for quadratic unconstrained binary optimization. It is the single
-# input format that every quantum optimizer available today accepts — gate-model
-# machines and annealers alike. A QUBO is exactly this:
+# QUBO stands for quadratic unconstrained binary optimization. It is the common
+# input format of today's quantum optimizers — QAOA on gate-model machines and
+# quantum annealers alike. A QUBO is exactly this:
 #
 # * **Binary variables.** Here, one per bus: `x_i = 0` puts bus `i` in island A,
 #   `x_i = 1` puts it in island B. Nine buses means nine variables.
@@ -212,11 +212,12 @@ print("resources          ", quantum.resources)
 #   weight is set too low, so always read this.
 # * **`gap()`** is the relative difference against the classical reference. Zero
 #   means the solver found the true optimum. QuGrid computes the reference
-#   automatically for problems with 20 variables or fewer.
+#   automatically for problems with 24 variables or fewer.
 # * **`success_probability()`** applies to quantum solvers: the total probability
 #   the final quantum state assigns to optimal assignments. A quantum optimizer
 #   returns a probability distribution over answers, not one answer, so this
-#   number tells you how often a real machine would hand you the optimum. Here it
+#   number tells you how often an ideal, noise-free machine would hand you the
+#   optimum; real hardware faces less. Here it
 #   is about 1 percent, against 0.39 percent for uniform random guessing over 512
 #   states.
 # * **`resources`** records the cost: qubit count, circuit depth, number of

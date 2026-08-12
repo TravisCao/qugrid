@@ -11,7 +11,7 @@ The community's standard data format is the MATPOWER case: three matrices (`bus`
 ```python
 import qugrid as qg
 
-net = qg.cases.case9()          # bundled IEEE 9-bus test system
+net = qg.cases.case9()          # bundled WSCC 9-bus test system
 net.bus.shape, net.branch.shape  # MATPOWER columns, unchanged
 ```
 

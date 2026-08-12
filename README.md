@@ -21,7 +21,19 @@ result = qg.solve(qg.problems.Islanding(qg.cases.case9()), solver="qaoa", seed=0
 print(result.summary())
 ```
 
-QuGrid is for power system researchers who want to study quantum algorithms **without leaving their field's tools, units, and standards of evidence** — and for quantum researchers who want grid problems formulated the way power engineers will actually review them.
+```text
+QuGrid result | solver=qaoa | Islanding(n=9)
+  objective          27.0512
+  feasible           yes
+  gap vs reference   0%
+  P(optimum)         0.010
+  n_cut              2
+  island_power_mw    (10.3, -5.0)
+  islands_connected  (True, True)
+  resources          wall_time_s=0.37, n_qubits=9, p=2, evaluations=1200, restarts=3, seed=0
+```
+
+Engineering units, the same-run classical reference, and the honest success probability — in the first screenful. QuGrid is for power system researchers who want to study quantum algorithms **without leaving their field's tools, units, and standards of evidence** — and for quantum researchers who want grid problems formulated the way power engineers will actually review them.
 
 [English](README.md) · [中文](README.zh.md) · [Documentation](https://traviscao.github.io/qugrid/) · [10-min quickstart](https://traviscao.github.io/qugrid/quickstart/) · [十分钟上手](https://traviscao.github.io/qugrid/quickstart_zh/)
 
@@ -37,13 +49,13 @@ Between MATPOWER/pandapower and Qiskit/Ocean/PennyLane there is a gap where rese
 2. **Encodings** are exact, tested algebra: `QUBO ⇄ Ising` with pinned conventions, a `QUBOBuilder` with exact squared-penalty expansion for your own formulations, `LinearSystemProblem` with power-of-two padding and Hermitian dilation. The test suite enforces all of it at 1e-9.
 3. **Solvers** run on a pure-NumPy statevector core — QAOA, VQE, HHL, VQLS, fidelity quantum kernels, a quantum Boltzmann machine — **with zero quantum SDK dependencies**, next to the classical baselines every claim must face: exact enumeration, seeded simulated annealing, LU, Newton–Raphson. The same problem objects export to Qiskit, D-Wave Ocean, and PennyLane when you want vendor stacks or hardware.
 
-Every solver returns the same `Result`: the decoded engineering answer, feasibility of the *original* constraints (not the penalty proxy), the `gap()` to a classical reference computed in the same run, the success probability a hardware experiment would face, and the resource bill.
+Every solver returns the same `Result`: the decoded engineering answer, feasibility of the *original* constraints (not the penalty proxy), the `gap()` to a classical reference computed in the same run, the success probability even an ideal noise-free device would face, and the resource bill.
 
 ## Sixty seconds of evidence
 
-Controlled islanding of the IEEE 9-bus system. The exact QUBO optimum opens 2 lines and leaves island imbalances of +10.3 / −5.0 MW; QAOA at depth 2 finds the same plan:
+Controlled islanding of the WSCC 9-bus system. The exact QUBO optimum opens 2 lines and leaves island imbalances of +10.3 / −5.0 MW; QAOA at depth 2 finds the same plan:
 
-<p align="center"><img alt="Islanding of the IEEE 9-bus system" src="docs/assets/hero_islanding.png" width="560"></p>
+<p align="center"><img alt="Islanding of the WSCC 9-bus system" src="docs/assets/hero_islanding.png" width="560"></p>
 
 HHL on DC power flow, with the two numbers most papers do not print together — the error *and* what each digit of precision costs in postselection probability:
 
@@ -55,7 +67,7 @@ Numbers from the self-validating example scripts (each script asserts its own cl
 |---|---|---|
 | DC power flow, HHL @ 8 clock qubits | relative error 2.5e-3, max angle error 0.0067° | LU solution (exact) |
 | Unit commitment, 2 units × 2 periods | exact QUBO = SA = \$2,908.00; discretization gap \$0.00 | UC enumeration: \$2,908.00 |
-| Islanding, IEEE 9-bus | exact = SA = QAOA(p=2), gap 0 | exact enumeration |
+| Islanding, WSCC 9-bus | exact = SA = QAOA(p=2), gap 0 | exact enumeration |
 | PMU placement, 9-bus / 14-bus | SA finds 3 / 4 PMUs, full observability | exact minimum: 3 / 4 |
 | Quantum kernel on N-1 screening | test accuracy 1.00 at tuned bandwidth, 0.50 mistuned | RBF kernel: 1.00 |
 
@@ -96,7 +108,7 @@ Ten single-file studies in [`examples/`](examples/), in the spirit of CleanRL: s
 
 ## Positioning
 
-- **Qiskit Optimization, OpenQAOA, D-Wave Ocean** consume abstract QUBOs. QuGrid owns what happens before (credible grid formulations, documented penalty weights, discretization accounting) and after (decoding to MW, feasibility of the real constraints, field-standard baselines) — and exports to all three in one call.
+- **Qiskit Optimization, OpenQAOA, D-Wave Ocean** operate on abstract optimization models with no grid semantics. QuGrid owns what happens before (credible grid formulations, documented penalty weights, discretization accounting) and after (decoding to MW, feasibility of the real constraints, field-standard baselines) — and exports to all three in one call.
 - **MATPOWER and pandapower** stay the source of truth for grid data and classical power flow; QuGrid consumes their formats rather than replacing them.
 - **CleanRL and Tianshou** inspired the shape: a small tested core plus single-file, self-validating research scripts.
 

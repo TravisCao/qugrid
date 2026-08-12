@@ -4,13 +4,13 @@ Quantum computing papers in power systems have a credibility problem: too many c
 
 ## 1. The power problem is the protagonist
 
-A study is about unit commitment, not about QAOA. State results in engineering units — dispatch in MW, cost in \$/h, PMU counts, angle errors in radians.
+A study is about unit commitment, not about QAOA. State results in engineering units — dispatch in MW, cost in \$, PMU counts, angle errors in degrees.
 
 *In QuGrid:* `result.decoded` is the engineering answer; `result.summary()` prints it next to the solver metadata. The bitstring is available but never the headline.
 
 ## 2. Classical baselines run in the same script
 
-Every quantum result ships with the answer a classical method gives on the identical instance. For QUBOs that is exact enumeration (n ≤ 20) and seeded simulated annealing; for linear systems, LU; for kernels, RBF with the same downstream classifier.
+Every quantum result ships with the answer a classical method gives on the identical instance. For QUBOs that is exact enumeration (n ≤ 24) and seeded simulated annealing; for linear systems, LU; for kernels, RBF with the same downstream classifier.
 
 *In QuGrid:* `solve(prob, solver="exact"/"sa"/"numpy")` consume the same problem object, and `result.gap()` is always measured against the classical reference — never against another quantum run.
 
@@ -22,7 +22,7 @@ A QUBO built by discretizing generator output has already paid an approximation 
 
 ## 4. Report resources, not just accuracy
 
-“HHL solved it” means little without the postselection cost. A hardware experiment keeps only the runs where the ancilla measures 1 — at success probability 0.003, the average answer costs 300 circuit executions.
+“HHL solved it” means little without the postselection cost. A hardware experiment keeps only the runs where the ancilla measures 1 — at success probability 0.003, the average answer costs about 330 circuit executions.
 
 *In QuGrid:* every result carries `resources` (qubit counts, runtime, iterations); HHL additionally reports `success_probability` and `clock_leakage`, VQLS its optimizer trace, QAOA its expectation history and per-restart behavior.
 

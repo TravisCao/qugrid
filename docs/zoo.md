@@ -10,7 +10,7 @@ uv run python examples/03_islanding_case9.py
 |---|---|---|---|---|
 | 01 | `01_dc_power_flow_hhl` | DC power flow (3-bus microgrid) | HHL | LU / `solve_dc` |
 | 02 | `02_unit_commitment_qaoa` | 2-unit, 2-period unit commitment | QAOA | exact UC enumeration |
-| 03 | `03_islanding_case9` | controlled islanding, IEEE 9-bus | QAOA | exact + simulated annealing |
+| 03 | `03_islanding_case9` | controlled islanding, WSCC 9-bus | QAOA | exact + simulated annealing |
 | 04 | `04_pmu_placement` | PMU observability, 9/14-bus | SA on QUBO | exact dominating set |
 | 05 | `05_economic_dispatch_discretization` | dispatch discretization study | exact QUBO | KKT economic dispatch |
 | 06 | `06_qaoa_depth_study` | islanding | QAOA at p = 1…4 | exact optimum |
@@ -25,6 +25,6 @@ uv run python examples/03_islanding_case9.py
 
 1. The docstring states the power problem, why quantum methods are studied for it (one honest sentence), and the expected output.
 2. The classical baseline runs in the same file, on the same instance, and the script *asserts* its own headline claim — if the claim stops holding, the script exits nonzero and CI notices.
-3. Figures use the library's validated plotting style; no result exists only as a picture.
+3. Figures use the library's plotting style; no result exists only as a picture.
 
 Copy any script, swap in your case file, and you have the skeleton of a study.

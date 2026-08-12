@@ -32,7 +32,7 @@ Calling an adapter without its extra raises an `ImportError` that names the exac
 
 ```bash
 qugrid doctor    # versions, optional-dependency status
-qugrid demo      # 30-second end-to-end run on the IEEE 9-bus system
+qugrid demo      # 30-second end-to-end run on the WSCC 9-bus system
 ```
 
 ## Development install

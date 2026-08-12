@@ -16,7 +16,7 @@ qugrid doctor
 
 ## 三行代码解决第一个问题
 
-对 IEEE 9 节点系统做主动解列(controlled islanding):扰动后把电网分成两个自平衡的孤岛,尽量少切线路,同时让每个岛内的发电与负荷平衡。
+对 WSCC 9 节点系统做主动解列(controlled islanding):扰动后把电网分成两个自平衡的孤岛,尽量少断开线路,同时让每个岛内的发电与负荷平衡。
 
 ```python
 import qugrid as qg
@@ -25,12 +25,12 @@ result = qg.solve(qg.problems.Islanding(qg.cases.case9()), solver="qaoa", seed=0
 print(result.summary())
 ```
 
-这三行做了四件事:把解列问题编码成 QUBO(每条母线一个二值变量);在内置的态矢量模拟器上运行 QAOA;把最优比特串解码回解列方案(岛集合、切除线路、功率不平衡量);并且因为问题足够小,枚举出精确最优解作为对照。
+这三行做了四件事:把解列问题编码成 QUBO(每条母线一个二值变量);在内置的态矢量模拟器上运行 QAOA;把最优比特串解码回解列方案(岛集合、断开的线路、功率不平衡量);并且因为问题足够小,枚举出精确最优解作为对照。
 
 ## 读结果
 
 ```python
-result.decoded          # 工程答案:岛集合、切除线路、每个岛的功率不平衡(MW)
+result.decoded          # 工程答案:岛集合、断开的线路、每个岛的功率不平衡(MW)
 result.feasible         # 原始约束(惩罚项之前的约束)是否满足
 result.gap()            # 与经典最优解的相对差距(0.0 = 达到最优)
 result.success_probability()  # 单次测量得到最优态的概率

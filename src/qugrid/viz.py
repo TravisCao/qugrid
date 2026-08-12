@@ -1,6 +1,6 @@
 """Publication-quality plots with zero configuration.
 
-Every figure QuGrid produces follows one visual system: a colorblind-validated
+Every figure QuGrid produces follows one visual system: a colorblind-safe
 categorical palette, one-hue sequential ramps, thin marks, recessive grid.
 Call :func:`use_style` once (solvers' plot helpers do it for you) and every
 matplotlib figure in your session inherits the look.
@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import numpy as np
 
-# Categorical palette (colorblind-validated, fixed order — never cycle further).
+# Categorical palette (colorblind-safe, fixed order — never cycle further).
 PALETTE = [
     "#2a78d6",  # blue
     "#eb6834",  # orange

@@ -8,7 +8,7 @@ For research: yes, and that is the library's purpose. Which grid problems have s
 
 ## Why a power-specific library instead of Qiskit Optimization or D-Wave Ocean?
 
-Those stacks consume abstract QUBOs and return bitstrings. The research work in power applications happens on both sides of that interface: turning a MATPOWER case into a *credible* QUBO (discretization, penalty weights, constraint bookkeeping), and turning a bitstring back into a dispatch with quantified constraint violation, compared against the field's actual baselines. QuGrid owns those two sides and hands the middle to any stack you like via adapters.
+Those stacks operate on abstract optimization models and return variable assignments. The research work in power applications happens on both sides of that interface: turning a MATPOWER case into a *credible* QUBO (discretization, penalty weights, constraint bookkeeping), and turning a bitstring back into a dispatch with quantified constraint violation, compared against the field's actual baselines. QuGrid owns those two sides and hands the middle to any stack you like via adapters.
 
 ## Why is the core simulator limited to 22 qubits?
 

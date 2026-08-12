@@ -67,6 +67,8 @@ class Result:
             lines.append(f"  feasible           {'yes' if self.feasible else 'NO'}")
         g = self.gap()
         if g is not None:
+            if abs(g) < 1e-9:  # display float noise as the exact match it is
+                g = 0.0
             lines.append(f"  gap vs reference   {100 * g:.3g}%")
         sp = self.success_probability()
         if sp is not None:
