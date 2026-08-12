@@ -1,0 +1,25 @@
+name: New problem formulation
+description: Propose a power system problem QuGrid should encode
+labels: [formulation]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The power problem
+      description: What decision or computation, in engineering terms? Who studies it, and on which standard test systems?
+    validations:
+      required: true
+  - type: textarea
+    id: encoding
+    attributes:
+      label: Proposed encoding
+      description: QUBO (which variables, which constraints become penalties) or linear system (which matrix, typical conditioning)? Cite the paper if the encoding is published.
+    validations:
+      required: true
+  - type: textarea
+    id: baseline
+    attributes:
+      label: Classical reference
+      description: What does the field actually solve this with, and how will the formulation's `reference()` / test compare against it?
+    validations:
+      required: true

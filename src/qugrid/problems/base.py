@@ -56,20 +56,28 @@ class Ising:
         return np.einsum("bi,ij,bj->b", s, self.j, s) + s @ self.h + self.offset
 
     def all_energies(self) -> np.ndarray:
-        """Energies of all ``2^n`` configurations (index bit ``i`` = variable ``i``)."""
+        """Energies of all ``2^n`` configurations (index bit ``i`` = variable ``i``).
+
+        Memory stays at O(2^n) — spins are generated per variable, not cached
+        per variable, so n = 24 costs ~400 MB peak instead of ~3 GB.
+        """
         if self.n > 24:
             raise ValueError(f"refusing to enumerate 2^{self.n} states")
         states = np.arange(2**self.n, dtype=np.int64)
+
+        def spin(i: int) -> np.ndarray:
+            return 1.0 - 2.0 * ((states >> i) & 1)  # bit 0 -> spin +1
+
         energies = np.full(2**self.n, self.offset, dtype=float)
-        spins = []
         for i in range(self.n):
-            s_i = 1.0 - 2.0 * ((states >> i) & 1)  # bit 0 -> spin +1
-            spins.append(s_i)
             if self.h[i] != 0.0:
-                energies += self.h[i] * s_i
+                energies += self.h[i] * spin(i)
         ii, jj = np.nonzero(self.j)
+        last_a, s_a = -1, None
         for a, b in zip(ii, jj):
-            energies += self.j[a, b] * spins[a] * spins[b]
+            if a != last_a:  # ii is row-sorted; cache the left spin per row
+                s_a, last_a = spin(a), a
+            energies += (self.j[a, b] * s_a) * spin(b)
         return energies
 
 

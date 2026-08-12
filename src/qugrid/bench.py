@@ -87,16 +87,41 @@ def summarize(df: pd.DataFrame) -> pd.DataFrame:
     return agg.reset_index()
 
 
+def _latex_cell(value) -> str:
+    if value is None or (isinstance(value, float) and np.isnan(value)):
+        return "--"
+    if isinstance(value, (float, np.floating)):
+        return f"{value:,.3g}"
+    text = str(value)
+    for ch, rep in [("&", "\\&"), ("%", "\\%"), ("_", "\\_"), ("#", "\\#"), ("$", "\\$")]:
+        text = text.replace(ch, rep)
+    return text
+
+
 def to_latex(df: pd.DataFrame, caption: str = "QuGrid benchmark", label: str = "tab:qugrid"):
-    """Booktabs LaTeX for a summarized DataFrame (drop it straight into a paper)."""
+    """Booktabs LaTeX for a summarized DataFrame (drop it straight into a paper).
+
+    Written by hand rather than through ``DataFrame.to_latex`` so the core
+    install needs no jinja2 (pandas >= 2.0 routes ``to_latex`` through its
+    Styler, which imports jinja2 at call time).
+    """
     summary = df if "objective_mean" in df.columns else summarize(df)
-    body = summary.to_latex(
-        index=False, float_format=lambda v: f"{v:,.3g}", escape=True, na_rep="--"
-    )
-    return (
-        "\\begin{table}[t]\n\\centering\n"
-        f"\\caption{{{caption}}}\n\\label{{{label}}}\n" + body + "\\end{table}\n"
-    )
+    cols = list(summary.columns)
+    align = "".join("l" if summary[c].dtype == object else "r" for c in cols)
+    lines = [
+        "\\begin{table}[t]",
+        "\\centering",
+        f"\\caption{{{caption}}}",
+        f"\\label{{{label}}}",
+        f"\\begin{{tabular}}{{{align}}}",
+        "\\toprule",
+        " & ".join(_latex_cell(c) for c in cols) + " \\\\",
+        "\\midrule",
+    ]
+    for _, row in summary.iterrows():
+        lines.append(" & ".join(_latex_cell(row[c]) for c in cols) + " \\\\")
+    lines += ["\\bottomrule", "\\end{tabular}", "\\end{table}", ""]
+    return "\n".join(lines)
 
 
 def save_run(

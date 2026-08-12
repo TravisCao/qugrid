@@ -1,0 +1,27 @@
+name: Bug report
+description: Something gives a wrong number, an error, or a crash
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Environment
+      description: Paste the first line of `qugrid doctor`
+      placeholder: "qugrid 0.1.0 | python 3.11.9 | numpy 2.1.0"
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal script
+      description: The smallest script that shows the problem, including the case/data it runs on.
+      render: python
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs observed
+      description: For numerical disagreements, state the classical reference you compared against (e.g. MATPOWER runpf, an exact enumeration) and both numbers.
+    validations:
+      required: true

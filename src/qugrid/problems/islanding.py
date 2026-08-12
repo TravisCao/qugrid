@@ -43,6 +43,17 @@ class Islanding(CombinatorialProblem):
     beta:
         Weight of the size-balance term. ``None`` uses a small default that
         breaks the all-one-island degeneracy without dominating.
+
+    .. note::
+        The no-split assignment (every bus in one island) is always a QUBO
+        state; on very small or tightly meshed networks it can be the ground
+        state under the default weights, because cutting any line costs more
+        than the small size-balance reward. That optimum is *infeasible* for
+        islanding — ``is_feasible`` is False and ``decode()["sizes"]`` shows
+        an empty island. On the bundled IEEE cases (9 buses and larger) the
+        defaults give a genuine split; if your network comes back trivial,
+        raise ``beta`` (1.0 x mean edge weight forces a split on every
+        bundled case) or fix seed buses by editing the QUBO.
     """
 
     def __init__(self, net: Network, alpha: float | None = None, beta: float | None = None):

@@ -1,0 +1,16 @@
+name: Feature request
+description: A solver, metric, adapter, or workflow improvement
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: The research task this serves
+      description: What study were you running when you hit the gap?
+    validations:
+      required: true
+  - type: textarea
+    id: sketch
+    attributes:
+      label: Sketch
+      description: Rough API or behavior you expect. Optional.

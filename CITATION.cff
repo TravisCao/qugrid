@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use QuGrid in your research, please cite it as below."
+title: "QuGrid: quantum computing for power system research"
+type: software
+authors:
+  - family-names: Cao
+    given-names: Travis
+repository-code: "https://github.com/TravisCao/qugrid"
+url: "https://traviscao.github.io/qugrid/"
+license: MIT
+version: 0.1.0
+date-released: "2026-08-13"
+keywords:
+  - power systems
+  - quantum computing
+  - QUBO
+  - QAOA
+  - HHL
+  - unit commitment
+  - power flow
+abstract: >-
+  QuGrid is a research library that connects power system data and problems
+  (MATPOWER/pandapower networks, unit commitment, islanding, PMU placement,
+  power flow, security screening) to quantum algorithms (QAOA, VQE, HHL, VQLS,
+  quantum kernels, quantum Boltzmann machines) through exact, tested
+  encodings, with classical baselines and honest benchmarking built into
+  every result.

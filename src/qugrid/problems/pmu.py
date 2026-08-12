@@ -81,7 +81,13 @@ class PMUPlacement(CombinatorialProblem):
         return bool(self.coverage(x).all())
 
     def reference(self) -> dict:
-        """Exact minimum dominating set by enumeration over placement bits."""
+        """Exact minimum dominating set by enumeration over placement bits.
+
+        Slack bits do not need enumeration: for a feasible placement each
+        coverage slack has one exact value (``coverage - 1``), so the full
+        QUBO assignment — and with it a reference ``objective`` that
+        :meth:`Result.gap` can use — is reconstructed in closed form.
+        """
         n = self.net.n_bus
         if n > 20:
             raise ValueError("exact enumeration limited to 20 buses")
@@ -95,6 +101,13 @@ class PMUPlacement(CombinatorialProblem):
                 best = int(x.sum())
                 best_x = x
         assert best_x is not None
-        out = self.decode(best_x)
-        out["x"] = best_x
+        bits = [best_x]
+        for i in range(n):
+            slack = int(best_x[i] + best_x[self.neighbors[i]].sum()) - 1
+            n_slack_bits = max(1, int(np.ceil(np.log2(self.degrees[i] + 1))))
+            bits.append(np.array([(slack >> k) & 1 for k in range(n_slack_bits)]))
+        x_full = np.concatenate(bits).astype(int)
+        out = self.decode(x_full)
+        out["x"] = x_full
+        out["objective"] = float(self.qubo.energy(x_full))
         return out

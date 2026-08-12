@@ -1,0 +1,75 @@
+site_name: QuGrid
+site_description: Quantum computing for power system research
+site_url: https://traviscao.github.io/qugrid/
+repo_url: https://github.com/TravisCao/qugrid
+repo_name: TravisCao/qugrid
+
+theme:
+  name: material
+  logo: assets/icon.svg
+  favicon: assets/icon.svg
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      toggle:
+        icon: material/weather-night
+        name: Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Light mode
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - content.tabs.link
+    - toc.integrate
+
+extra_css:
+  - stylesheets/qugrid.css
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+  - tables
+  - attr_list
+
+extra_javascript:
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: sphinx
+            show_source: true
+            members_order: source
+
+nav:
+  - Home: index.md
+  - Getting started:
+      - Install: install.md
+      - 10-minute quickstart: quickstart.md
+      - 十分钟上手 (中文): quickstart_zh.md
+      - Choose your learning path: learning-paths.md
+  - Primers:
+      - Quantum computing for power engineers: primers/quantum-for-power.md
+      - Power systems for quantum researchers: primers/power-for-quantum.md
+      - Problem-to-algorithm cheatsheet: primers/cheatsheet.md
+  - Tutorials: tutorials.md
+  - Example zoo: zoo.md
+  - Research practice:
+      - Honest benchmarking: honest-benchmarking.md
+      - FAQ: faq.md
+  - API reference: api.md
+  - Contributing: contributing.md

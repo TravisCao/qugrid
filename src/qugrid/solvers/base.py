@@ -107,11 +107,17 @@ def timed(resources: dict):
 
 
 def attach_reference(result: Result, problem) -> Result:
-    """Attach the classical reference when it is cheap to compute (n <= 20)."""
+    """Attach the classical reference when the problem can produce one.
+
+    Formulations may override ``reference()`` with problem-specific
+    enumeration that stays cheap beyond the generic limit (PMU placement
+    enumerates placement bits only, not slack bits). The default enumerates
+    the full QUBO up to n = 24 and raises beyond; a missing reference is a
+    convenience lost, never a failure.
+    """
     try:
-        if getattr(problem, "n", 99) <= 20:
-            result.reference = problem.reference()
-    except Exception:  # reference is a convenience, never a failure mode
+        result.reference = problem.reference()
+    except Exception:
         result.reference = None
     return result
 
