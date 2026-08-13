@@ -767,6 +767,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Methods from the literature
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../faq/" class="md-nav__link">
         
   
@@ -1154,6 +1182,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#qugrid.problems.unit_commitment.UnitCommitment.constraint_residual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        constraint_residual
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#qugrid.problems.unit_commitment.UnitCommitment.continuous_reference" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1219,6 +1258,17 @@
     <span class="md-ellipsis">
       
         coverage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qugrid.problems.pmu.PMUPlacement.constraint_residual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        constraint_residual
       
     </span>
   </a>
@@ -1314,6 +1364,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#qugrid.problems.base.QUBO.dynamic_range" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_range
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#qugrid.problems.base.Ising" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1395,6 +1456,17 @@
     <span class="md-ellipsis">
       
         add_squared_penalty
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qugrid.problems.builder.QUBOBuilder.add_inequality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_inequality
       
     </span>
   </a>
@@ -1823,6 +1895,11 @@ print(res.summary())</p>
 <p><code>solver="auto"</code> picks a sensible default: QAOA for small combinatorial
 problems, simulated annealing beyond statevector reach; HHL for small
 linear systems, exact algebra beyond.</p>
+<p><code>repair="greedy"</code> post-processes a combinatorial result with
+:func:<code>qugrid.solvers.greedy_repair</code>: the answer bitstring — and, for
+solvers that report an output distribution, every top state — is
+repaired toward feasibility, and <code>P(optimum | repaired)</code> lands in
+<code>result.extras</code> next to the raw <code>P(optimum)</code>.</p>
 <p>QUBO problems also accept the external stacks — <code>"dimod-exact"</code>,
 <code>"dwave-sa"</code>, <code>"qiskit-qaoa"</code> — which return the same
 :class:<code>Result</code> and need the matching extra installed.</p>
@@ -1830,46 +1907,70 @@ linear systems, exact algebra beyond.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/qugrid/solvers/__init__.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">repair</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Solve any QuGrid problem with any registered solver.</span>
 
 <span class="sd">    &gt;&gt;&gt; import qugrid as qg</span>
@@ -1881,6 +1982,12 @@ linear systems, exact algebra beyond.</p>
 <span class="sd">    problems, simulated annealing beyond statevector reach; HHL for small</span>
 <span class="sd">    linear systems, exact algebra beyond.</span>
 
+<span class="sd">    ``repair=&quot;greedy&quot;`` post-processes a combinatorial result with</span>
+<span class="sd">    :func:`qugrid.solvers.greedy_repair`: the answer bitstring — and, for</span>
+<span class="sd">    solvers that report an output distribution, every top state — is</span>
+<span class="sd">    repaired toward feasibility, and ``P(optimum | repaired)`` lands in</span>
+<span class="sd">    ``result.extras`` next to the raw ``P(optimum)``.</span>
+
 <span class="sd">    QUBO problems also accept the external stacks — ``&quot;dimod-exact&quot;``,</span>
 <span class="sd">    ``&quot;dwave-sa&quot;``, ``&quot;qiskit-qaoa&quot;`` — which return the same</span>
 <span class="sd">    :class:`Result` and need the matching extra installed.</span>
@@ -1889,6 +1996,17 @@ linear systems, exact algebra beyond.</p>
         <span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;qubo&quot;</span>
         <span class="k">if</span> <span class="n">solver</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
             <span class="n">solver</span> <span class="o">=</span> <span class="s2">&quot;qaoa&quot;</span> <span class="k">if</span> <span class="n">problem</span><span class="o">.</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">16</span> <span class="k">else</span> <span class="s2">&quot;sa&quot;</span>
+        <span class="k">if</span> <span class="n">solver</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;exact&quot;</span><span class="p">,</span> <span class="s2">&quot;dimod-exact&quot;</span><span class="p">):</span>
+            <span class="n">dr</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">qubo</span><span class="o">.</span><span class="n">dynamic_range</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">dr</span> <span class="o">&gt;</span> <span class="mf">1e3</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;QUBO dynamic range is </span><span class="si">{</span><span class="n">dr</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="s2"> (&gt;1e3): penalty terms dwarf the &quot;</span>
+                    <span class="s2">&quot;cost differences, and sampling solvers may not resolve them. &quot;</span>
+                    <span class="s2">&quot;Consider unbalanced penalties (QUBOBuilder.add_inequality) or &quot;</span>
+                    <span class="s2">&quot;qugrid.methods.AugmentedLagrangianLoop.&quot;</span><span class="p">,</span>
+                    <span class="ne">RuntimeWarning</span><span class="p">,</span>
+                    <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">LinearSystemProblem</span><span class="p">):</span>
         <span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;linear&quot;</span>
         <span class="k">if</span> <span class="n">solver</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
@@ -1908,7 +2026,14 @@ linear systems, exact algebra beyond.</p>
             <span class="sa">f</span><span class="s2">&quot;solver </span><span class="si">{</span><span class="n">solver</span><span class="si">!r}</span><span class="s2"> does not apply to </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">problem</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">; &quot;</span>
             <span class="sa">f</span><span class="s2">&quot;options: </span><span class="si">{</span><span class="n">options</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
-    <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">fn</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">repair</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">!=</span> <span class="s2">&quot;qubo&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;repair applies to combinatorial problems only&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">repair</span> <span class="o">!=</span> <span class="s2">&quot;greedy&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;unknown repair </span><span class="si">{</span><span class="n">repair</span><span class="si">!r}</span><span class="s2">; the only option is &#39;greedy&#39;&quot;</span><span class="p">)</span>
+        <span class="n">repair_result</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">problem</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -3439,7 +3564,14 @@ initial_on:
 <span class="normal">170</span>
 <span class="normal">171</span>
 <span class="normal">172</span>
-<span class="normal">173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UnitCommitment</span><span class="p">(</span><span class="n">CombinatorialProblem</span><span class="p">):</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UnitCommitment</span><span class="p">(</span><span class="n">CombinatorialProblem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Multi-period unit commitment with binary-encoded dispatch.</span>
 
 <span class="sd">    Parameters</span>
@@ -3573,6 +3705,13 @@ initial_on:
         <span class="n">balance</span> <span class="o">=</span> <span class="n">power</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">demand</span>
         <span class="k">return</span> <span class="n">gate_ok</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">balance</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance_tol</span><span class="p">)</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">constraint_residual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;MW of violation: imbalance beyond tolerance plus gated-off power.&quot;&quot;&quot;</span>
+        <span class="n">commit</span><span class="p">,</span> <span class="n">power</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">balance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">power</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">demand</span><span class="p">)</span>
+        <span class="n">gate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">power</span><span class="p">[</span><span class="n">commit</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">balance</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance_tol</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">gate</span><span class="p">)</span>
+
     <span class="c1"># -------------------------------------------------------------- baselines</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">continuous_reference</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;True UC optimum with continuous dispatch (enumeration + exact ED).&quot;&quot;&quot;</span>
@@ -3597,6 +3736,39 @@ initial_on:
 <div class="doc doc-object doc-function">
 
 
+<h2 id="qugrid.problems.unit_commitment.UnitCommitment.constraint_residual" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">constraint_residual</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>MW of violation: imbalance beyond tolerance plus gated-off power.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/qugrid/problems/unit_commitment.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">constraint_residual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;MW of violation: imbalance beyond tolerance plus gated-off power.&quot;&quot;&quot;</span>
+    <span class="n">commit</span><span class="p">,</span> <span class="n">power</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">balance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">power</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">demand</span><span class="p">)</span>
+    <span class="n">gate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">power</span><span class="p">[</span><span class="n">commit</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">balance</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance_tol</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">gate</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h2 id="qugrid.problems.unit_commitment.UnitCommitment.continuous_reference" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">continuous_reference</span><span class="p">()</span></code>
 
@@ -3610,10 +3782,10 @@ initial_on:
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/qugrid/problems/unit_commitment.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">continuous_reference</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">continuous_reference</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;True UC optimum with continuous dispatch (enumeration + exact ED).&quot;&quot;&quot;</span>
     <span class="n">sol</span> <span class="o">=</span> <span class="n">solve_uc_enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gens</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">demand</span><span class="p">,</span> <span class="n">initial_on</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_on</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;commit&quot;</span><span class="p">:</span> <span class="n">sol</span><span class="o">.</span><span class="n">commit</span><span class="p">,</span> <span class="s2">&quot;power&quot;</span><span class="p">:</span> <span class="n">sol</span><span class="o">.</span><span class="n">power</span><span class="p">,</span> <span class="s2">&quot;cost&quot;</span><span class="p">:</span> <span class="n">sol</span><span class="o">.</span><span class="n">cost</span><span class="p">}</span>
@@ -4204,7 +4376,11 @@ for an annealer, instructive for counting why qubit budgets matter.</p>
 <span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
-<span class="normal">113</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PMUPlacement</span><span class="p">(</span><span class="n">CombinatorialProblem</span><span class="p">):</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PMUPlacement</span><span class="p">(</span><span class="n">CombinatorialProblem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Minimum-PMU full observability (zero-injection buses not modeled).</span>
 
 <span class="sd">    Variables: one placement bit per bus plus ``ceil(log2(deg_i + 1))`` slack</span>
@@ -4260,6 +4436,10 @@ for an annealer, instructive for counting why qubit budgets matter.</p>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">is_feasible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coverage</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">constraint_residual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of buses the placement bits in ``x`` leave unobserved.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">((</span><span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">coverage</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">reference</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Exact minimum dominating set by enumeration over placement bits.</span>
@@ -4352,6 +4532,33 @@ for an annealer, instructive for counting why qubit budgets matter.</p>
 <div class="doc doc-object doc-function">
 
 
+<h2 id="qugrid.problems.pmu.PMUPlacement.constraint_residual" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">constraint_residual</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Number of buses the placement bits in <code>x</code> leave unobserved.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/qugrid/problems/pmu.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">constraint_residual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Number of buses the placement bits in ``x`` leave unobserved.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">((</span><span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">coverage</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h2 id="qugrid.problems.pmu.PMUPlacement.reference" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">reference</span><span class="p">()</span></code>
 
@@ -4369,11 +4576,7 @@ QUBO assignment — and with it a reference <code>objective</code> that
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/qugrid/problems/pmu.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 87</span>
 <span class="normal"> 88</span>
 <span class="normal"> 89</span>
 <span class="normal"> 90</span>
@@ -4399,7 +4602,11 @@ QUBO assignment — and with it a reference <code>objective</code> that
 <span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
-<span class="normal">113</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">reference</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">reference</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exact minimum dominating set by enumeration over placement bits.</span>
 
 <span class="sd">    Slack bits do not need enumeration: for a feasible placement each</span>
@@ -4888,7 +5095,28 @@ physically meaningful, sized for today's quantum feature maps.</p>
 <span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
-<span class="normal">120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">QUBO</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Quadratic unconstrained binary optimization: minimize ``x^T Q x + offset``.&quot;&quot;&quot;</span>
 
@@ -4925,6 +5153,27 @@ physically meaningful, sized for today's quantum feature maps.</p>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">bits_from_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">k</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">dynamic_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;``max|coef| / min nonzero |coef|`` over the energy coefficients.</span>
+
+<span class="sd">        Coefficients are the linear terms ``Q_ii`` and the pair couplings</span>
+<span class="sd">        ``2 Q_ij`` (i &lt; j); the offset shifts every energy equally and is</span>
+<span class="sd">        excluded. Penalty-folded formulations stretch this ratio, and</span>
+<span class="sd">        sampling solvers stop resolving the costs underneath: the 2-unit</span>
+<span class="sd">        unit commitment study&#39;s penalized QUBO measures 3.9e3 here, and</span>
+<span class="sd">        example 07 documents the QAOA success-probability collapse on it.</span>
+<span class="sd">        ``db=True`` returns ``20 log10`` of the ratio. A QUBO with no</span>
+<span class="sd">        nonzero coefficient reports 1 (0 dB).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">))</span>
+        <span class="n">pairs</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">triu_indices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)])</span>
+        <span class="n">coefs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">lin</span><span class="p">,</span> <span class="n">pairs</span><span class="p">])</span>
+        <span class="n">nonzero</span> <span class="o">=</span> <span class="n">coefs</span><span class="p">[</span><span class="n">coefs</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">nonzero</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="n">db</span> <span class="k">else</span> <span class="mf">1.0</span>
+        <span class="n">ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">nonzero</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="n">nonzero</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="mf">20.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">ratio</span><span class="p">))</span> <span class="k">if</span> <span class="n">db</span> <span class="k">else</span> <span class="n">ratio</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -5007,6 +5256,75 @@ physically meaningful, sized for today's quantum feature maps.</p>
     <span class="n">h</span> <span class="o">=</span> <span class="o">-</span><span class="n">row</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">d</span> <span class="o">/</span> <span class="mf">2.0</span>
     <span class="n">offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">+</span> <span class="n">off</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mf">4.0</span> <span class="o">+</span> <span class="n">d</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mf">2.0</span>
     <span class="k">return</span> <span class="n">Ising</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="qugrid.problems.base.QUBO.dynamic_range" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">dynamic_range</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p><code>max|coef| / min nonzero |coef|</code> over the energy coefficients.</p>
+<p>Coefficients are the linear terms <code>Q_ii</code> and the pair couplings
+<code>2 Q_ij</code> (i &lt; j); the offset shifts every energy equally and is
+excluded. Penalty-folded formulations stretch this ratio, and
+sampling solvers stop resolving the costs underneath: the 2-unit
+unit commitment study's penalized QUBO measures 3.9e3 here, and
+example 07 documents the QAOA success-probability collapse on it.
+<code>db=True</code> returns <code>20 log10</code> of the ratio. A QUBO with no
+nonzero coefficient reports 1 (0 dB).</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/qugrid/problems/base.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">dynamic_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;``max|coef| / min nonzero |coef|`` over the energy coefficients.</span>
+
+<span class="sd">    Coefficients are the linear terms ``Q_ii`` and the pair couplings</span>
+<span class="sd">    ``2 Q_ij`` (i &lt; j); the offset shifts every energy equally and is</span>
+<span class="sd">    excluded. Penalty-folded formulations stretch this ratio, and</span>
+<span class="sd">    sampling solvers stop resolving the costs underneath: the 2-unit</span>
+<span class="sd">    unit commitment study&#39;s penalized QUBO measures 3.9e3 here, and</span>
+<span class="sd">    example 07 documents the QAOA success-probability collapse on it.</span>
+<span class="sd">    ``db=True`` returns ``20 log10`` of the ratio. A QUBO with no</span>
+<span class="sd">    nonzero coefficient reports 1 (0 dB).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">))</span>
+    <span class="n">pairs</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">triu_indices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)])</span>
+    <span class="n">coefs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">lin</span><span class="p">,</span> <span class="n">pairs</span><span class="p">])</span>
+    <span class="n">nonzero</span> <span class="o">=</span> <span class="n">coefs</span><span class="p">[</span><span class="n">coefs</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">nonzero</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="n">db</span> <span class="k">else</span> <span class="mf">1.0</span>
+    <span class="n">ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">nonzero</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="n">nonzero</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="mf">20.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">ratio</span><span class="p">))</span> <span class="k">if</span> <span class="n">db</span> <span class="k">else</span> <span class="n">ratio</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -5288,39 +5606,7 @@ solvers can hand back answers in physical units.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/qugrid/problems/base.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">193</span>
 <span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
@@ -5342,7 +5628,39 @@ solvers can hand back answers in physical units.</p>
 <span class="normal">212</span>
 <span class="normal">213</span>
 <span class="normal">214</span>
-<span class="normal">215</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">LinearSystemProblem</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A linear system ``A x = b`` destined for a (quantum) linear solver.</span>
 
@@ -5432,21 +5750,21 @@ Returns <code>(A', b', original_dimension)</code>.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/qugrid/problems/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">padded</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">padded</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Embed into the next power-of-two dimension (identity padding).</span>
 
 <span class="sd">    Quantum registers hold ``2^m`` amplitudes; the padding is inert</span>
@@ -5493,68 +5811,120 @@ Returns <code>(A', b', original_dimension)</code>.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/qugrid/problems/builder.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">QUBOBuilder</span><span class="p">:</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">QUBOBuilder</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_lin</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_quad</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_const</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_ineq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a binary variable and return its index (idempotent).&quot;&quot;&quot;</span>
@@ -5596,6 +5966,56 @@ Returns <code>(A', b', original_dimension)</code>.</p>
                 <span class="n">j</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">terms</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">add_quadratic</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_inequality</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">terms</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+        <span class="n">constant</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;slack&quot;</span><span class="p">,</span>
+        <span class="n">lam</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Penalize the constraint ``sum_i coef_i * x_i + constant &gt;= 0``.</span>
+
+<span class="sd">        ``method=&quot;slack&quot;`` (default) is the textbook route (Lucas,</span>
+<span class="sd">        arXiv:1302.5843): register binary slack bits covering ``[0, U]``</span>
+<span class="sd">        with ``U`` the maximum of the left side over all bitstrings, and add</span>
+<span class="sd">        ``weight * (sum_i coef_i x_i + constant - S)^2``. Exact whenever the</span>
+<span class="sd">        left side is integer-valued; costs ``ceil(log2(U + 1))`` extra bits</span>
+<span class="sd">        per constraint.</span>
+
+<span class="sd">        ``method=&quot;unbalanced&quot;`` is unbalanced penalization</span>
+<span class="sd">        (Montanez-Barrera et al., Quantum Sci. Technol. 9, 025022, 2024;</span>
+<span class="sd">        arXiv:2211.13914): add ``-l1*g + l2*g^2`` for</span>
+<span class="sd">        ``g = sum_i coef_i x_i + constant``, with ``lam=(l1, l2)``. Zero</span>
+<span class="sd">        slack bits, so the qubit count stops growing with the number of</span>
+<span class="sd">        inequalities — but the encoding is a heuristic: the unconstrained</span>
+<span class="sd">        minimum coincides with the constrained optimum only for suitable</span>
+<span class="sd">        ``(l1, l2)``, which need tuning per problem family. ``weight`` is</span>
+<span class="sd">        ignored on this path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;ineq</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_ineq</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_ineq</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;slack&quot;</span><span class="p">:</span>
+            <span class="n">g_max</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">constant</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">)</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">g_max</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">g_max</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-9</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;slack encoding needs an integer-valued left side&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;constraint can never hold: left side is at most negative&quot;</span><span class="p">)</span>
+            <span class="n">n_bits</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">u</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))))</span> <span class="k">if</span> <span class="n">u</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="n">slack</span> <span class="o">=</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_s</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">k</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_bits</span><span class="p">)]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_squared_penalty</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span> <span class="o">+</span> <span class="n">slack</span><span class="p">,</span> <span class="n">constant</span><span class="p">,</span> <span class="n">weight</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;unbalanced&quot;</span><span class="p">:</span>
+            <span class="n">l1</span><span class="p">,</span> <span class="n">l2</span> <span class="o">=</span> <span class="n">lam</span> <span class="k">if</span> <span class="n">lam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="o">-</span><span class="n">l1</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">constant</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_linear</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="n">l1</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_squared_penalty</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">terms</span><span class="p">),</span> <span class="n">constant</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">l2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;unknown method </span><span class="si">{</span><span class="n">method</span><span class="si">!r}</span><span class="s2">; use &#39;slack&#39; or &#39;unbalanced&#39;&quot;</span><span class="p">)</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QUBO</span><span class="p">:</span>
         <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lin</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -5636,12 +6056,12 @@ Returns <code>(A', b', original_dimension)</code>.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/qugrid/problems/builder.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">32</span>
-<span class="normal">33</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">33</span>
 <span class="normal">34</span>
 <span class="normal">35</span>
 <span class="normal">36</span>
-<span class="normal">37</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="normal">37</span>
+<span class="normal">38</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Register a binary variable and return its index (idempotent).&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">)</span>
@@ -5669,8 +6089,7 @@ Returns <code>(A', b', original_dimension)</code>.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/qugrid/problems/builder.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">57</span>
-<span class="normal">58</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
 <span class="normal">59</span>
 <span class="normal">60</span>
 <span class="normal">61</span>
@@ -5682,7 +6101,8 @@ Returns <code>(A', b', original_dimension)</code>.</p>
 <span class="normal">67</span>
 <span class="normal">68</span>
 <span class="normal">69</span>
-<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_squared_penalty</span><span class="p">(</span>
+<span class="normal">70</span>
+<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_squared_penalty</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">terms</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="n">constant</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">weight</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add ``weight * (sum coef_i x_i + constant)^2``, expanded exactly.&quot;&quot;&quot;</span>
@@ -5696,6 +6116,140 @@ Returns <code>(A', b', original_dimension)</code>.</p>
         <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">terms</span><span class="p">)):</span>
             <span class="n">j</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">terms</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_quadratic</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="qugrid.problems.builder.QUBOBuilder.add_inequality" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">add_inequality</span><span class="p">(</span><span class="n">terms</span><span class="p">,</span> <span class="n">constant</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;slack&#39;</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Penalize the constraint <code>sum_i coef_i * x_i + constant &gt;= 0</code>.</p>
+<p><code>method="slack"</code> (default) is the textbook route (Lucas,
+arXiv:1302.5843): register binary slack bits covering <code>[0, U]</code>
+with <code>U</code> the maximum of the left side over all bitstrings, and add
+<code>weight * (sum_i coef_i x_i + constant - S)^2</code>. Exact whenever the
+left side is integer-valued; costs <code>ceil(log2(U + 1))</code> extra bits
+per constraint.</p>
+<p><code>method="unbalanced"</code> is unbalanced penalization
+(Montanez-Barrera et al., Quantum Sci. Technol. 9, 025022, 2024;
+arXiv:2211.13914): add <code>-l1*g + l2*g^2</code> for
+<code>g = sum_i coef_i x_i + constant</code>, with <code>lam=(l1, l2)</code>. Zero
+slack bits, so the qubit count stops growing with the number of
+inequalities — but the encoding is a heuristic: the unconstrained
+minimum coincides with the constrained optimum only for suitable
+<code>(l1, l2)</code>, which need tuning per problem family. <code>weight</code> is
+ignored on this path.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/qugrid/problems/builder.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_inequality</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">terms</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="n">constant</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;slack&quot;</span><span class="p">,</span>
+    <span class="n">lam</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Penalize the constraint ``sum_i coef_i * x_i + constant &gt;= 0``.</span>
+
+<span class="sd">    ``method=&quot;slack&quot;`` (default) is the textbook route (Lucas,</span>
+<span class="sd">    arXiv:1302.5843): register binary slack bits covering ``[0, U]``</span>
+<span class="sd">    with ``U`` the maximum of the left side over all bitstrings, and add</span>
+<span class="sd">    ``weight * (sum_i coef_i x_i + constant - S)^2``. Exact whenever the</span>
+<span class="sd">    left side is integer-valued; costs ``ceil(log2(U + 1))`` extra bits</span>
+<span class="sd">    per constraint.</span>
+
+<span class="sd">    ``method=&quot;unbalanced&quot;`` is unbalanced penalization</span>
+<span class="sd">    (Montanez-Barrera et al., Quantum Sci. Technol. 9, 025022, 2024;</span>
+<span class="sd">    arXiv:2211.13914): add ``-l1*g + l2*g^2`` for</span>
+<span class="sd">    ``g = sum_i coef_i x_i + constant``, with ``lam=(l1, l2)``. Zero</span>
+<span class="sd">    slack bits, so the qubit count stops growing with the number of</span>
+<span class="sd">    inequalities — but the encoding is a heuristic: the unconstrained</span>
+<span class="sd">    minimum coincides with the constrained optimum only for suitable</span>
+<span class="sd">    ``(l1, l2)``, which need tuning per problem family. ``weight`` is</span>
+<span class="sd">    ignored on this path.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;ineq</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_ineq</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_n_ineq</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;slack&quot;</span><span class="p">:</span>
+        <span class="n">g_max</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">constant</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">)</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">g_max</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">g_max</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-9</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;slack encoding needs an integer-valued left side&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;constraint can never hold: left side is at most negative&quot;</span><span class="p">)</span>
+        <span class="n">n_bits</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">u</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))))</span> <span class="k">if</span> <span class="n">u</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">slack</span> <span class="o">=</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_s</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">k</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_bits</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_squared_penalty</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span> <span class="o">+</span> <span class="n">slack</span><span class="p">,</span> <span class="n">constant</span><span class="p">,</span> <span class="n">weight</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;unbalanced&quot;</span><span class="p">:</span>
+        <span class="n">l1</span><span class="p">,</span> <span class="n">l2</span> <span class="o">=</span> <span class="n">lam</span> <span class="k">if</span> <span class="n">lam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="o">-</span><span class="n">l1</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">constant</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_linear</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="n">l1</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_squared_penalty</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">terms</span><span class="p">),</span> <span class="n">constant</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">l2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;unknown method </span><span class="si">{</span><span class="n">method</span><span class="si">!r}</span><span class="s2">; use &#39;slack&#39; or &#39;unbalanced&#39;&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -5811,7 +6365,10 @@ Returns <code>(A', b', original_dimension)</code>.</p>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
-<span class="normal">101</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Outcome of solving a QuGrid problem.&quot;&quot;&quot;</span>
 
@@ -5866,6 +6423,9 @@ Returns <code>(A', b', original_dimension)</code>.</p>
         <span class="n">sp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">success_probability</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">sp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  P(optimum)         </span><span class="si">{</span><span class="n">sp</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">pr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extras</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;p_optimum_repaired&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  P(opt | repaired)  </span><span class="si">{</span><span class="n">pr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">decoded</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">)):</span>
                 <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">&lt;18</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">val</span><span class="si">:</span><span class="s2">,.6g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -6006,11 +6566,11 @@ Returns <code>(A', b', original_dimension)</code>.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/qugrid/solvers/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">93</span>
-<span class="normal">94</span>
-<span class="normal">95</span>
-<span class="normal">96</span>
-<span class="normal">97</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_convergence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_convergence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Optimizer trajectory (thin wrapper over :func:`qugrid.viz.plot_convergence`).&quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">qugrid.viz</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_convergence</span>
 

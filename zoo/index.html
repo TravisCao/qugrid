@@ -825,6 +825,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Methods from the literature
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../faq/" class="md-nav__link">
         
   
@@ -928,7 +956,7 @@
 
 
 <h1 id="example-zoo">Example zoo</h1>
-<p>Eleven single-file studies in <code>examples/</code>, in the spirit of CleanRL: each is self-contained, seeded, runnable in minutes, ends by validating its own claim against a classical reference, and saves its figures to <code>examples/figures/</code>.</p>
+<p>Thirteen single-file studies in <code>examples/</code>, in the spirit of CleanRL: each is self-contained, seeded, runnable in minutes, ends by validating its own claim against a classical reference, and saves its figures to <code>examples/figures/</code>.</p>
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>examples/03_islanding_case9.py
 </code></pre></div>
 <table>
@@ -1018,6 +1046,20 @@
 <td>UC + islanding + PMU</td>
 <td>QAOA in two implementations</td>
 <td>dimod exact + Ocean SA, same <code>Result</code>; emits LaTeX table</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>12_constraint_handling_study</code></td>
+<td>PMU coverage + UC balance constraints</td>
+<td>slack vs unbalanced penalties, augmented Lagrangian, greedy repair</td>
+<td>exhaustive enumeration over both encodings</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>13_qaoa_variants_study</code></td>
+<td>islanding (9- and 14-bus) + one-hot dispatch</td>
+<td>warm-start QAOA, XY mixer, transferred angles</td>
+<td>exact optimum + simulated annealing warm starter</td>
 </tr>
 </tbody>
 </table>
