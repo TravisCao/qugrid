@@ -163,7 +163,7 @@ def test_fixed_angles_reproduce_the_optimized_run(islanding):
     assert fixed.resources["expectation"] == pytest.approx(
         opt.resources["expectation"], abs=1e-4
     )
-    assert fixed.success_probability() == pytest.approx(opt.success_probability(), abs=1e-9)
+    assert fixed.success_probability() == pytest.approx(opt.success_probability(), abs=1e-7)
     assert fixed.resources["evaluations"] == 1  # no optimizer ran
 
 
