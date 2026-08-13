@@ -41,3 +41,5 @@ The phrase “quantum advantage” does not belong in a paper whose largest inst
 ---
 
 These rules compress the advice of the power systems reviewing community into defaults. If you publish with QuGrid, the methods section is mostly written: cite the library version from `config.json`, the seeds from your sweep, and the baselines from the same table your quantum numbers came from.
+
+The [cross-library benchmark](cross-library.md) applies the same rules across dimod, Ocean, and Qiskit: same QUBO objects, same `Result` metrics, one table.

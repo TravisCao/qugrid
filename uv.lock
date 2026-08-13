@@ -679,6 +679,51 @@ wheels = [
 ]
 
 [[package]]
+name = "docplex"
+version = "2.32.264"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "six" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b4/02/7aec9042e1727b9f8fd745fa799bc8b4fd76e4db57f05a81eb676ead401b/docplex-2.32.264.tar.gz", hash = "sha256:4e2b29b3559e702bcfe12c6747428c752b0c39a508a81addf05edaab36b76bd8", size = 663972, upload-time = "2026-04-01T08:04:10.512Z" }
+
+[[package]]
+name = "dwave-samplers"
+version = "1.8.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "dimod" },
+    { name = "networkx", version = "3.4.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "networkx", version = "3.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*'" },
+    { name = "numpy", version = "2.5.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/0d/0b/935384c075444fdc74140049259fa3e07146db6d2fc465032c273b765aa4/dwave_samplers-1.8.0.tar.gz", hash = "sha256:d4bafd175544b2a17975d2818a49be2269bbae015528b6e0046be9e6631fa35f", size = 190183, upload-time = "2026-06-18T15:56:00.61Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/dd/87/7a6ba354f223cc884368d9c0143c477d77dd5b0cb55e382cca1cd1eec007/dwave_samplers-1.8.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:db1c7548f0d7f57976b59c3d0dfc3016e5eab5d85844a04bca463f97a0a36a8f", size = 1084737, upload-time = "2026-06-18T15:55:35.988Z" },
+    { url = "https://files.pythonhosted.org/packages/40/61/705d82c7f66994d1423f5609ee793d07a18626d782c1d2de08884e57f31e/dwave_samplers-1.8.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:1fc9c4c61eca50190466b0f085e54c1cbb49d1b1de6acb4e09b7e697ff3de830", size = 1060835, upload-time = "2026-06-18T15:55:37.744Z" },
+    { url = "https://files.pythonhosted.org/packages/7d/60/558bb239bc3552a404f6a859784f7a1ecf7c98f6502046e8fa5b8e73a060/dwave_samplers-1.8.0-cp310-cp310-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:9a5b393ebe3ed5e2a7b5dc94f4132a4c6f662d69238c0504a0b65d6bb2c85e7c", size = 2609803, upload-time = "2026-06-18T15:55:39.041Z" },
+    { url = "https://files.pythonhosted.org/packages/da/0d/64d0235fb9615f17905a7e1bc9cb7113cb0a556c39638cbe48de5e358e1e/dwave_samplers-1.8.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:712b55d86ae52492e6e335e9966a1d57431df452177159d679df890f633bcc04", size = 2702470, upload-time = "2026-06-18T15:55:40.327Z" },
+    { url = "https://files.pythonhosted.org/packages/fa/e1/52f61e149bd6f8c9cc703454802b37b259c191e1f7f3beb326099178d878/dwave_samplers-1.8.0-cp310-cp310-win_amd64.whl", hash = "sha256:155f110d0ddeed309e8e8211cfbbee6c884f3ec31265d9fc9662374ce158651a", size = 1180794, upload-time = "2026-06-18T15:55:41.553Z" },
+    { url = "https://files.pythonhosted.org/packages/b8/56/b3f523531fb095bae865140968a24a5a2f1ecef20f106e24243ce49f3c78/dwave_samplers-1.8.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:57e5d8ec1c9c318ba6a7593efb99c27ae347e9c7da3ad69994605a0e9840defb", size = 1079522, upload-time = "2026-06-18T15:55:42.641Z" },
+    { url = "https://files.pythonhosted.org/packages/59/8c/2a636cb01ce7026a5dd6cc1e8744c3f4b92362e322d0b32156329419ceed/dwave_samplers-1.8.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:53d0fb6663a3870c1189964385cb7c4fa5d8f35c6682c0b9aa6189b893c7dc39", size = 1055879, upload-time = "2026-06-18T15:55:43.693Z" },
+    { url = "https://files.pythonhosted.org/packages/9c/68/3720c449e971ef99a764b6dc101e69620424e625193f9d891394dcacf504/dwave_samplers-1.8.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:74ec94c7910c8b1981351a19da0951f3ae7af6fd1ef887acb4a80f85adb66308", size = 2649820, upload-time = "2026-06-18T15:55:44.893Z" },
+    { url = "https://files.pythonhosted.org/packages/bc/c8/862c162e28f4e57c4c0d246dda3fcdc68e9e7414e52f0013a2319d99f7e5/dwave_samplers-1.8.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:b08986ef9c2f7d0085c32704d07eb3f479c1a5525c97d0a1cce8aa2cc87bbd2d", size = 2740297, upload-time = "2026-06-18T15:55:45.99Z" },
+    { url = "https://files.pythonhosted.org/packages/e5/2b/6f2f0c6633f77bd6fb881c86c500770d97e4d866586d78cec0835f91d280/dwave_samplers-1.8.0-cp311-cp311-win_amd64.whl", hash = "sha256:1ee4812471c1a2fdedd69d96b87bea448f0969d3b6df9f05dea18f9f4f727520", size = 1178203, upload-time = "2026-06-18T15:55:47.096Z" },
+    { url = "https://files.pythonhosted.org/packages/71/3c/fbe5aa2ef0e48b8c60853d1ee1fbd379f6b1fcd6098fd8b807b6d04133ed/dwave_samplers-1.8.0-cp312-abi3-macosx_10_13_x86_64.whl", hash = "sha256:5d7ba124fb5f63f1ba0292f2d4eb28e97a690dc56924aba4452f90f74e37a98d", size = 1011856, upload-time = "2026-06-18T15:55:48.3Z" },
+    { url = "https://files.pythonhosted.org/packages/3d/53/3196fbf483be165cbf0e198ac23dd3c8d70592a6ae3914d409b1ef56edae/dwave_samplers-1.8.0-cp312-abi3-macosx_11_0_arm64.whl", hash = "sha256:a6a8225430e95e9d8f0213d6ccbaa7f20909744badc1d5b598e44bfae6deaf56", size = 988392, upload-time = "2026-06-18T15:55:49.379Z" },
+    { url = "https://files.pythonhosted.org/packages/f0/18/aa9f518bca61940f9d95481e3b265783cc5aca25c737cfd91b2752b6efba/dwave_samplers-1.8.0-cp312-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:5d3e281723004a190e079bd4488f5d7a36342a25554fb12345990b5712eafea0", size = 2406208, upload-time = "2026-06-18T15:55:50.529Z" },
+    { url = "https://files.pythonhosted.org/packages/d0/d3/c9a72352945811701b55540164da30dc5237a3afa8988e17458d472c96b3/dwave_samplers-1.8.0-cp312-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:0808d8e840b6fa552a1f62a30fbd0d5a04d34044c1b1d4c3152a4991f66e26e8", size = 2537347, upload-time = "2026-06-18T15:55:51.819Z" },
+    { url = "https://files.pythonhosted.org/packages/9b/4b/daff33960b1d8ec000d945549c991ee4a4998cfa568d208963ff3d1c5e4e/dwave_samplers-1.8.0-cp312-abi3-win_amd64.whl", hash = "sha256:06947ccf1cd8e0394085fed67c1eda62e41ac1f2feb4d7daa35a717cfa26d068", size = 1134391, upload-time = "2026-06-18T15:55:52.996Z" },
+    { url = "https://files.pythonhosted.org/packages/89/db/9d213ed015acac1ec4be8634d79323bf4a74cedbbefc2bfff6560d119be8/dwave_samplers-1.8.0-cp314-cp314t-macosx_10_15_x86_64.whl", hash = "sha256:93ec918faef170a5f8db717907539d4bda61b6f0bb7af427c3f9963b3faf5242", size = 1127600, upload-time = "2026-06-18T15:55:54.257Z" },
+    { url = "https://files.pythonhosted.org/packages/ad/ff/dc822e0e14e387167fa9715ad4ce208efec9196d04ba062fa948f9e27c6e/dwave_samplers-1.8.0-cp314-cp314t-macosx_11_0_arm64.whl", hash = "sha256:ba9cc0a857d25736faa1f58c241d9eaf63318786da99982067e7a1176b68aefa", size = 1113948, upload-time = "2026-06-18T15:55:55.488Z" },
+    { url = "https://files.pythonhosted.org/packages/be/3d/20c43fdce2e1590e0f3e5dceafcdab00941b4bdbd67fb4fba8520fcde4eb/dwave_samplers-1.8.0-cp314-cp314t-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:f63e77068b924e76939c71075068ef389f8ee8737350c6c69db52841356348eb", size = 2596810, upload-time = "2026-06-18T15:55:56.495Z" },
+    { url = "https://files.pythonhosted.org/packages/9b/5e/875acab783032343d8f47689c88765b832231e646d595a30ad2ece569377/dwave_samplers-1.8.0-cp314-cp314t-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:be0ae2e04b6995c4f8d5b77ffd567032aae4ea67f95e412010dfa2c0f400b374", size = 2698067, upload-time = "2026-06-18T15:55:58.084Z" },
+    { url = "https://files.pythonhosted.org/packages/e2/cd/44fffdc3564cec0470e4d64b0ba10ffd38c0e3bfccc090e06b2c1574cbb6/dwave_samplers-1.8.0-cp314-cp314t-win_amd64.whl", hash = "sha256:06002cdf5b6987be0263195a783d9249c7235fae5a9c959f070f8af14bafee73", size = 1317730, upload-time = "2026-06-18T15:55:59.413Z" },
+]
+
+[[package]]
 name = "exceptiongroup"
 version = "1.3.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2287,6 +2332,44 @@ wheels = [
 ]
 
 [[package]]
+name = "qiskit-algorithms"
+version = "0.4.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*'" },
+    { name = "numpy", version = "2.5.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "qiskit" },
+    { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "scipy", version = "1.16.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e5/86/d0f8ccae25281d49ebb0e2b59076c2d815389c16a4f7a379936f21065e94/qiskit_algorithms-0.4.0.tar.gz", hash = "sha256:b945e807c9b94ba2e0d2e02898b1f1e1a33efd3b4a6dc5a45bb787c6832d4093", size = 259556, upload-time = "2025-08-29T18:32:24.076Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3c/23/ab868be0ea11e0054ac4962d27f80cc064e007f8e34b7b61808a25227cca/qiskit_algorithms-0.4.0-py3-none-any.whl", hash = "sha256:c8bfc119e270c7cd7d6013e62193914381bd71fd4cdc847c07b50c749fd0114d", size = 327840, upload-time = "2025-08-29T18:32:22.659Z" },
+]
+
+[[package]]
+name = "qiskit-optimization"
+version = "0.7.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "docplex" },
+    { name = "networkx", version = "3.4.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "networkx", version = "3.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*'" },
+    { name = "numpy", version = "2.5.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "qiskit" },
+    { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "scipy", version = "1.16.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "setuptools" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c9/e0/46e635e6d447f08ef9d9b2e89d129454ec2db3a2327237cea2bd3e8c4878/qiskit_optimization-0.7.0.tar.gz", hash = "sha256:059e9329c647534965e68d8c52de1b02828635c525c210aa0730e486f9c5a686", size = 219471, upload-time = "2025-08-20T14:04:16.96Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ba/a1/78908508b73f0e9f638abeace753c07439f92d3eb2fda36706f8e08e73d6/qiskit_optimization-0.7.0-py3-none-any.whl", hash = "sha256:2082390c2b89cdf2083f6f790486797a0e188016e0dd31c8a32b27f6913864dc", size = 237135, upload-time = "2025-08-20T14:04:15.478Z" },
+]
+
+[[package]]
 name = "qugrid"
 version = "0.1.0"
 source = { editable = "." }
@@ -2304,10 +2387,13 @@ dependencies = [
 [package.optional-dependencies]
 all = [
     { name = "dimod" },
+    { name = "dwave-samplers" },
     { name = "pandapower" },
     { name = "pennylane", version = "0.42.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "pennylane", version = "0.45.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "qiskit" },
+    { name = "qiskit-algorithms" },
+    { name = "qiskit-optimization" },
 ]
 dev = [
     { name = "pytest" },
@@ -2320,6 +2406,7 @@ docs = [
 ]
 dwave = [
     { name = "dimod" },
+    { name = "dwave-samplers" },
 ]
 pandapower = [
     { name = "pandapower" },
@@ -2330,12 +2417,16 @@ pennylane = [
 ]
 qiskit = [
     { name = "qiskit" },
+    { name = "qiskit-algorithms" },
+    { name = "qiskit-optimization" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "dimod", marker = "extra == 'all'", specifier = ">=0.12" },
     { name = "dimod", marker = "extra == 'dwave'", specifier = ">=0.12" },
+    { name = "dwave-samplers", marker = "extra == 'all'", specifier = ">=1.3" },
+    { name = "dwave-samplers", marker = "extra == 'dwave'", specifier = ">=1.3" },
     { name = "matplotlib", specifier = ">=3.7" },
     { name = "mkdocs-material", marker = "extra == 'docs'", specifier = ">=9.5" },
     { name = "mkdocstrings", extras = ["python"], marker = "extra == 'docs'", specifier = ">=0.25" },
@@ -2349,6 +2440,10 @@ requires-dist = [
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=5.0" },
     { name = "qiskit", marker = "extra == 'all'", specifier = ">=1.0" },
     { name = "qiskit", marker = "extra == 'qiskit'", specifier = ">=1.0" },
+    { name = "qiskit-algorithms", marker = "extra == 'all'", specifier = ">=0.3" },
+    { name = "qiskit-algorithms", marker = "extra == 'qiskit'", specifier = ">=0.3" },
+    { name = "qiskit-optimization", marker = "extra == 'all'", specifier = ">=0.6" },
+    { name = "qiskit-optimization", marker = "extra == 'qiskit'", specifier = ">=0.6" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.5" },
     { name = "scipy", specifier = ">=1.10" },
 ]
@@ -2583,6 +2678,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/9a/92/3daebb4977844e5a5d5a483f16bce69a245efca988d5707f2afdf810f731/scipy_openblas32-0.3.34.106.0-py3-none-win32.whl", hash = "sha256:94eb6aceb7d8209f344304a79f4ee6c7779cfdd9f8ea5d49b22a7f9dc4215978", size = 5638222, upload-time = "2026-08-09T16:57:05.191Z" },
     { url = "https://files.pythonhosted.org/packages/17/f6/37c9538046e49b92853900abd8c76e99c102672da135a0952d368a682bfb/scipy_openblas32-0.3.34.106.0-py3-none-win_amd64.whl", hash = "sha256:3b042738dd7b18a76db8aa78f5d8d48ee174b857592688a4a2dbe77fc733c710", size = 7161312, upload-time = "2026-08-09T16:57:06.818Z" },
     { url = "https://files.pythonhosted.org/packages/77/71/e9b25a750a11d6e2c521f6eb99517cf30bf6a4d30c4d01649ecb27144c82/scipy_openblas32-0.3.34.106.0-py3-none-win_arm64.whl", hash = "sha256:93d10aed63281c659eb169f4bc55381af97416694fbbd541e32b7cd7f3a4fd0f", size = 5177014, upload-time = "2026-08-09T16:57:08.31Z" },
+]
+
+[[package]]
+name = "setuptools"
+version = "84.0.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/6d/44/f5da03a8ef95d369145c5bb53050e7877c9f3d312e128605fd9504829143/setuptools-84.0.0.tar.gz", hash = "sha256:f4695c21257f0d9b537ec2692c941d02ee143b7cc1276941349a546573b2ef73", size = 1168449, upload-time = "2026-08-08T18:27:58.365Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/95/9c/c510029fc6ef33a6275cd2c5d3cecd6613dfd6aa401d57c54f1c18852ccf/setuptools-84.0.0-py3-none-any.whl", hash = "sha256:51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670", size = 818216, upload-time = "2026-08-08T18:27:56.719Z" },
 ]
 
 [[package]]

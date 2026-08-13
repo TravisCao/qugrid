@@ -70,6 +70,7 @@ nav:
   - Example zoo: zoo.md
   - Research practice:
       - Honest benchmarking: honest-benchmarking.md
+      - Cross-library benchmark: cross-library.md
       - FAQ: faq.md
   - API reference: api.md
   - Contributing: contributing.md

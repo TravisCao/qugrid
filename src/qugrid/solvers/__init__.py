@@ -4,6 +4,11 @@ from __future__ import annotations
 
 from typing import Any
 
+from qugrid.adapters.external_solvers import (
+    solve_dimod_exact,
+    solve_dwave_sa,
+    solve_qiskit_qaoa,
+)
 from qugrid.problems.base import CombinatorialProblem, LinearSystemProblem
 from qugrid.solvers.annealing import solve_sa
 from qugrid.solvers.base import Result
@@ -31,6 +36,10 @@ REGISTRY: dict[str, tuple[Any, str]] = {
     "numpy": (solve_linear_exact, "linear"),
     "hhl": (solve_hhl, "linear"),
     "vqls": (solve_vqls, "linear"),
+    # external stacks (optional extras); same Result, same metrics
+    "dimod-exact": (solve_dimod_exact, "qubo"),
+    "dwave-sa": (solve_dwave_sa, "qubo"),
+    "qiskit-qaoa": (solve_qiskit_qaoa, "qubo"),
 }
 
 
@@ -45,6 +54,10 @@ def solve(problem, solver: str = "auto", **kwargs) -> Result:
     ``solver="auto"`` picks a sensible default: QAOA for small combinatorial
     problems, simulated annealing beyond statevector reach; HHL for small
     linear systems, exact algebra beyond.
+
+    QUBO problems also accept the external stacks — ``"dimod-exact"``,
+    ``"dwave-sa"``, ``"qiskit-qaoa"`` — which return the same
+    :class:`Result` and need the matching extra installed.
     """
     if isinstance(problem, CombinatorialProblem):
         kind = "qubo"
@@ -84,6 +97,9 @@ __all__ = [
     "solve_vqe",
     "solve_hhl",
     "solve_vqls",
+    "solve_dimod_exact",
+    "solve_dwave_sa",
+    "solve_qiskit_qaoa",
     "quantum_kernel",
     "rbf_kernel",
     "scale_features",

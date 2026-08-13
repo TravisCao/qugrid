@@ -39,13 +39,23 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-qiskit = ["qiskit>=1.0"]
-dwave = ["dimod>=0.12"]
+qiskit = [
+    "qiskit>=1.0",
+    "qiskit-algorithms>=0.3",
+    "qiskit-optimization>=0.6",
+]
+dwave = [
+    "dimod>=0.12",
+    "dwave-samplers>=1.3",
+]
 pennylane = ["pennylane>=0.35"]
 pandapower = ["pandapower>=2.14"]
 all = [
     "qiskit>=1.0",
+    "qiskit-algorithms>=0.3",
+    "qiskit-optimization>=0.6",
     "dimod>=0.12",
+    "dwave-samplers>=1.3",
     "pennylane>=0.35",
     "pandapower>=2.14",
 ]

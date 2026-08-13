@@ -1,6 +1,6 @@
 # QuGrid examples
 
-Ten single-file scripts. Each one takes a power system problem, solves it with a
+Eleven single-file scripts. Each one takes a power system problem, solves it with a
 quantum algorithm, compares the answer against the classical baseline in
 engineering units, prints a table, writes its figures, and asserts the claim it
 makes. Every script is seeded, so the numbers in its docstring are the numbers
@@ -25,7 +25,7 @@ whole set runs as a check:
 for f in examples/*.py; do uv run python "$f" || echo "FAIL $f"; done
 ```
 
-The full set takes about 40 seconds.
+The full set takes about a minute.
 
 ## Index
 
@@ -41,6 +41,7 @@ The full set takes about 40 seconds.
 | `08_quantum_kernel_screening.py` | N-1 security screening of the WSCC 9-bus system | fidelity quantum kernel with the ZZ feature map, over 3 bandwidths and 2 depths | RBF kernel with the median heuristic, same classifier | 1 s | `08_quantum_kernel_screening_bandwidth.png`, `08_quantum_kernel_screening_gram.png` |
 | `09_qbm_wind_scenarios.py` | Wind scenario generation over a 5-period horizon | quantum Boltzmann machine, transverse-field Ising, exact diagonalization | empirical means and neighbor correlations of the 300 training profiles | 1 s | `09_qbm_wind_scenarios_training.png`, `09_qbm_wind_scenarios_statistics.png` |
 | `10_hybrid_newton_vqls.py` | AC power flow of the 3-bus microgrid `toy3` | VQLS inside every Newton-Raphson iteration | Newton-Raphson with an LU inner solve | 3 s | `10_hybrid_newton_vqls_convergence.png`, `10_hybrid_newton_vqls_network.png` |
+| `11_cross_library_benchmark.py` | Unit commitment, islanding, and PMU placement together | depth-2 QAOA in two implementations (built-in statevector, qiskit-optimization) | dimod exhaustive enumeration and Ocean simulated annealing, 3 seeds each | 25 s | `11_cross_library_benchmark.png` |
 
 ## What each script measures
 
@@ -86,6 +87,14 @@ quantum solve. Both methods converge in 4 iterations to the same operating
 point. The inner solves carry a relative error of 1.5e-3, about 7 orders of
 magnitude looser than the final answer, which is the defining property of an
 inexact Newton method.
+
+**11** cross-checks the library against the ecosystem it plugs into.
+`dimod.ExactSolver` reproduces the internal enumeration to 1e-6 on all three
+problems, Ocean's simulated annealing reaches the exact optimum everywhere,
+and qiskit-optimization's QAOA lands on the same islanding objective as the
+built-in implementation on 2 of 3 seeds. Needs the `dwave` and `qiskit`
+extras; a missing one is skipped with a note, and the script still validates
+what remains.
 
 ## Notes on two choices
 
