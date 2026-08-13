@@ -17,7 +17,12 @@ import qugrid as qg
 
 
 def _installed(name: str) -> bool:
-    return importlib.util.find_spec(name) is not None
+    # find_spec("a.b") imports the parent. If that parent is absent it
+    # raises ModuleNotFoundError instead of returning None.
+    try:
+        return importlib.util.find_spec(name) is not None
+    except (ModuleNotFoundError, ImportError):
+        return False
 
 
 @pytest.fixture()
