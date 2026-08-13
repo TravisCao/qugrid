@@ -3,12 +3,10 @@
 ## Install
 
 ```bash
-pip install git+https://github.com/TravisCao/qugrid  # core: NumPy, SciPy, matplotlib, pandas — no quantum SDK
+pip install qugrid  # core: NumPy, SciPy, matplotlib, pandas — no quantum SDK
 ```
 
-A PyPI release is planned. After it lands, the command shortens to `pip install qugrid`.
-
-Or with [uv](https://docs.astral.sh/uv/): `uv add "qugrid @ git+https://github.com/TravisCao/qugrid"`. Optional stacks come as extras: `qugrid[qiskit]`, `qugrid[dwave]`, `qugrid[pennylane]`, `qugrid[pandapower]`, or `qugrid[all]`.
+Or with [uv](https://docs.astral.sh/uv/): `uv add qugrid`. Optional stacks come as extras: `qugrid[qiskit]`, `qugrid[dwave]`, `qugrid[pennylane]`, `qugrid[pandapower]`, or `qugrid[all]`.
 
 Check the install:
 

@@ -3,12 +3,10 @@
 ## 安装
 
 ```bash
-pip install git+https://github.com/TravisCao/qugrid  # 核心依赖只有 NumPy、SciPy、matplotlib、pandas,不需要任何量子 SDK
+pip install qugrid  # 核心依赖只有 NumPy、SciPy、matplotlib、pandas,不需要任何量子 SDK
 ```
 
-PyPI 发布已在计划中;发布后命令简化为 `pip install qugrid`。
-
-使用 [uv](https://docs.astral.sh/uv/) 则执行 `uv add "qugrid @ git+https://github.com/TravisCao/qugrid"`。可选生态通过 extras 安装:`qugrid[qiskit]`、`qugrid[dwave]`、`qugrid[pennylane]`、`qugrid[pandapower]`,或一次装全 `qugrid[all]`。
+使用 [uv](https://docs.astral.sh/uv/) 则执行 `uv add qugrid`。可选生态通过 extras 安装:`qugrid[qiskit]`、`qugrid[dwave]`、`qugrid[pennylane]`、`qugrid[pandapower]`,或一次装全 `qugrid[all]`。
 
 检查安装:
 

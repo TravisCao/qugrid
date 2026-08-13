@@ -74,12 +74,10 @@ Numbers from the self-validating example scripts (each script asserts its own cl
 ## Install
 
 ```bash
-pip install git+https://github.com/TravisCao/qugrid                  # core: NumPy, SciPy, matplotlib, pandas — no quantum SDK
-pip install "qugrid[all] @ git+https://github.com/TravisCao/qugrid"  # + qiskit, dwave, pennylane, pandapower adapters
-qugrid demo                                                          # 30-second end-to-end check
+pip install qugrid          # core: NumPy, SciPy, matplotlib, pandas — no quantum SDK
+pip install "qugrid[all]"   # + qiskit, dwave, pennylane, pandapower adapters
+qugrid demo                 # 30-second end-to-end check
 ```
-
-A PyPI release is planned. After it lands, the commands shorten to `pip install qugrid` and `pip install "qugrid[all]"`.
 
 ## Choose your on-ramp
 

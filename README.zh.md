@@ -74,12 +74,10 @@ WSCC 9 节点系统的主动解列。QUBO 精确最优解断开 2 条线路,两�
 ## 安装
 
 ```bash
-pip install git+https://github.com/TravisCao/qugrid                  # 核心依赖只有 NumPy、SciPy、matplotlib、pandas,无量子 SDK
-pip install "qugrid[all] @ git+https://github.com/TravisCao/qugrid"  # 加装 qiskit、dwave、pennylane、pandapower 适配器
-qugrid demo                                                          # 30 秒端到端自检
+pip install qugrid          # 核心依赖只有 NumPy、SciPy、matplotlib、pandas,无量子 SDK
+pip install "qugrid[all]"   # 加装 qiskit、dwave、pennylane、pandapower 适配器
+qugrid demo                 # 30 秒端到端自检
 ```
-
-PyPI 发布已在计划中;发布后命令简化为 `pip install qugrid` 与 `pip install "qugrid[all]"`。
 
 ## 选择你的入口
 
