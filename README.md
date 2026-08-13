@@ -47,7 +47,7 @@ Between MATPOWER/pandapower and Qiskit/Ocean/PennyLane there is a gap where rese
 
 1. **Power problems** speak engineering units. `UnitCommitment`, `Islanding`, `PMUPlacement`, `EconomicDispatchQUBO`, `dc_power_flow`, N-1 `screening_dataset`, wind scenarios — built on a `Network` class that keeps MATPOWER column semantics, loads MATPOWER `.m` files directly, converts from pandapower, and bundles seven standard test cases (PJM 5-bus to IEEE 118-bus).
 2. **Encodings** are exact, tested algebra: `QUBO ⇄ Ising` with pinned conventions, a `QUBOBuilder` with exact squared-penalty expansion for your own formulations, `LinearSystemProblem` with power-of-two padding and Hermitian dilation. The test suite enforces all of it at 1e-9.
-3. **Solvers** run on a pure-NumPy statevector core — QAOA, VQE, HHL, VQLS, fidelity quantum kernels, a quantum Boltzmann machine — **with zero quantum SDK dependencies**, next to the classical baselines every claim must face: exact enumeration, seeded simulated annealing, LU, Newton–Raphson. The same problem objects export to Qiskit, D-Wave Ocean, and PennyLane when you want vendor stacks or hardware.
+3. **Solvers** run on a pure-NumPy statevector core — QAOA with [literature variants](https://traviscao.github.io/qugrid/methods/) (warm start, XY mixer, transferred angles), VQE, HHL, VQLS, fidelity quantum kernels, a quantum Boltzmann machine — **with zero quantum SDK dependencies**, next to the classical baselines every claim must face: exact enumeration, seeded simulated annealing, tabu search, parallel tempering, and random sampling with greedy repair. The same problem objects export to Qiskit, D-Wave Ocean, and PennyLane — or solve straight through them (`solver="dimod-exact"`, `"dwave-sa"`, `"qiskit-qaoa"`) with the identical `Result`.
 
 Every solver returns the same `Result`: the decoded engineering answer, feasibility of the *original* constraints (not the penalty proxy), the `gap()` to a classical reference computed in the same run, the success probability even an ideal noise-free device would face, and the resource bill.
 
@@ -70,6 +70,8 @@ Numbers from the self-validating example scripts (each script asserts its own cl
 | Islanding, WSCC 9-bus | exact = SA = QAOA(p=2), gap 0 | exact enumeration |
 | PMU placement, 9-bus / 14-bus | SA finds 3 / 4 PMUs, full observability | exact minimum: 3 / 4 |
 | Quantum kernel on N-1 screening | test accuracy 1.00 at tuned bandwidth, 0.50 mistuned | RBF kernel: 1.00 |
+| Inequality encodings, PMU 5-bus | unbalanced penalty: 5 qubits, P(opt) 0.54 — slack: 15 qubits, P(opt) 0.001 | exact: 2 PMUs from both encodings |
+| Warm-start QAOA, islanding p=1 | P(optimum) 0.128 warm-started at the SA answer, 0.009 vanilla | exact enumeration, same run |
 
 ## Install
 
@@ -92,15 +94,17 @@ Five executed notebooks take you from zero quantum knowledge to running your own
 
 ## The example zoo
 
-Ten single-file studies in [`examples/`](examples/), in the spirit of CleanRL: self-contained, seeded, finished in minutes on a laptop, self-validating, each with its classical baseline in the same file. Copy one, swap in your case file, and you have the skeleton of a paper's experiment section.
+Thirteen single-file studies in [`examples/`](examples/), in the spirit of CleanRL: self-contained, seeded, finished in minutes on a laptop, self-validating, each with its classical baseline in the same file. Copy one, swap in your case file, and you have the skeleton of a paper's experiment section.
 
 | # | Study | # | Study |
 |---|---|---|---|
-| 01 | DC power flow via HHL: error anatomy | 06 | QAOA depth study on islanding |
-| 02 | Unit commitment via QAOA, honest success probabilities | 07 | Seed-swept solver benchmark → LaTeX table |
-| 03 | Controlled islanding of the 9-bus system | 08 | Quantum kernel vs RBF on N-1 screening |
-| 04 | PMU placement with slack-bit inequality encoding | 09 | Quantum Boltzmann machine wind scenarios |
-| 05 | What discretization costs: encoding vs solver error | 10 | Hybrid Newton–Raphson with a variational linear solver |
+| 01 | DC power flow via HHL: error anatomy | 08 | Quantum kernel vs RBF on N-1 screening |
+| 02 | Unit commitment via QAOA, honest success probabilities | 09 | Quantum Boltzmann machine wind scenarios |
+| 03 | Controlled islanding of the 9-bus system | 10 | Hybrid Newton–Raphson with a variational linear solver |
+| 04 | PMU placement with slack-bit inequality encoding | 11 | Cross-library benchmark: dimod, Ocean, Qiskit |
+| 05 | What discretization costs: encoding vs solver error | 12 | Constraint handling: slack vs unbalanced vs augmented Lagrangian |
+| 06 | QAOA depth study on islanding | 13 | QAOA variants: warm start, XY mixer, transferred angles |
+| 07 | Seven-solver seed-swept benchmark → LaTeX table | | |
 
 ## The honesty box
 

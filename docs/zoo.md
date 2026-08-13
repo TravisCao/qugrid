@@ -1,6 +1,6 @@
 # Example zoo
 
-Eleven single-file studies in `examples/`, in the spirit of CleanRL: each is self-contained, seeded, runnable in minutes, ends by validating its own claim against a classical reference, and saves its figures to `examples/figures/`.
+Thirteen single-file studies in `examples/`, in the spirit of CleanRL: each is self-contained, seeded, runnable in minutes, ends by validating its own claim against a classical reference, and saves its figures to `examples/figures/`.
 
 ```bash
 uv run python examples/03_islanding_case9.py
@@ -19,6 +19,8 @@ uv run python examples/03_islanding_case9.py
 | 09 | `09_qbm_wind_scenarios` | wind scenario generation | quantum Boltzmann machine | empirical moments |
 | 10 | `10_hybrid_newton_vqls` | AC power flow | VQLS inner solves | Newton–Raphson |
 | 11 | `11_cross_library_benchmark` | UC + islanding + PMU | QAOA in two implementations | dimod exact + Ocean SA, same `Result`; emits LaTeX table |
+| 12 | `12_constraint_handling_study` | PMU coverage + UC balance constraints | slack vs unbalanced penalties, augmented Lagrangian, greedy repair | exhaustive enumeration over both encodings |
+| 13 | `13_qaoa_variants_study` | islanding (9- and 14-bus) + one-hot dispatch | warm-start QAOA, XY mixer, transferred angles | exact optimum + simulated annealing warm starter |
 
 `examples/README.md` carries the same table with measured runtimes and the exact figures each script produces.
 

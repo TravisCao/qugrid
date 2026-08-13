@@ -4,6 +4,47 @@ All notable changes to QuGrid are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow
 [Semantic Versioning](https://semver.org/).
 
+## [0.2.0] — 2026-08-13
+
+Constraint handling and solver baselines, from the power system quantum
+optimization literature. Every method ships with a measured effect on a bundled
+problem — see the new [Methods from the literature](https://traviscao.github.io/qugrid/methods/)
+docs page, produced and asserted by examples 12 and 13.
+
+### Added
+
+- Slack-free inequality constraints:
+  `QUBOBuilder.add_inequality(..., method="unbalanced", lam=(l1, l2))`
+  (Montanez-Barrera 2024). On PJM 5-bus PMU placement: 5 qubits instead of 15,
+  depth-2 QAOA success probability 0.54 instead of 0.001.
+- `qugrid.methods.AugmentedLagrangianLoop`: outer multiplier loop for equality
+  constraints (Hong 2025, Feng 2023). Reaches the feasible unit-commitment
+  optimum in 3 outer iterations with a 21x flatter QUBO than the fixed penalty.
+- `QUBO.dynamic_range()` diagnostic; `qugrid.solve` warns when a sampling
+  solver receives a QUBO with dynamic range above 1e3.
+- Greedy repair post-processing: `qg.solve(..., repair="greedy")` repairs the
+  answer and every measured state, and reports `P(optimum | repaired)`;
+  problems expose a `constraint_residual` hook (REGRID-QAOA, Jiang 2026).
+- New classical baselines: tabu search (`solver="tabu"`), parallel tempering
+  (`solver="pt"`), and random sampling plus repair (`solver="random+repair"`)
+  — the no-quantum control every hybrid pipeline must beat (Gaidai 2026).
+  All reach gap 0 on the three bundled problems in under 0.04 s.
+- QAOA variants: warm start (`warm_start=` any [0,1]^n vector or
+  `"relaxation"`, Egger 2021), XY one-hot mixer (`mixer=XYMixer(groups)`,
+  Wang 2020), fixed transferred angles (`angles=(gammas, betas)`, Jing 2023);
+  every optimized run reports its best angles in `resources`.
+- Mixer protocol and `apply_unitary` on the statevector core.
+- Solve-through external solvers returning the standard `Result`:
+  `solver="dimod-exact"`, `"dwave-sa"`, `"qiskit-qaoa"`.
+- Examples 11 (cross-library benchmark), 12 (constraint handling study),
+  13 (QAOA variants study); example 07 grown to seven solvers.
+
+### Changed
+
+- README evidence table and solver descriptions carry the new measured
+  numbers; docs navigation gains "Methods from the literature" and the
+  cross-library benchmark page.
+
 ## [0.1.0] — 2026-08-13
 
 First public release.

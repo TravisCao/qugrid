@@ -1,6 +1,6 @@
 # QuGrid examples
 
-Eleven single-file scripts. Each one takes a power system problem, solves it with a
+Thirteen single-file scripts. Each one takes a power system problem, solves it with a
 quantum algorithm, compares the answer against the classical baseline in
 engineering units, prints a table, writes its figures, and asserts the claim it
 makes. Every script is seeded, so the numbers in its docstring are the numbers
@@ -25,7 +25,7 @@ whole set runs as a check:
 for f in examples/*.py; do uv run python "$f" || echo "FAIL $f"; done
 ```
 
-The full set takes about a minute.
+The full set takes about two minutes.
 
 ## Index
 
@@ -37,11 +37,13 @@ The full set takes about a minute.
 | `04_pmu_placement.py` | Minimum PMU placement on the 9-bus and 14-bus systems | simulated annealing on the QUBO encoding | exact minimum dominating set by enumeration | 7 s | `04_pmu_placement_networks.png` |
 | `05_economic_dispatch_discretization.py` | Economic dispatch, 2 units, 100 MW demand | binary power encoding that every quantum optimizer consumes, 1 to 4 bits per unit | continuous economic dispatch by bisection on marginal cost | 1 s | `05_economic_dispatch_discretization_error.png` |
 | `06_qaoa_depth_study.py` | Controlled islanding of the WSCC 9-bus system | QAOA at depths 1, 2, 3, 4 with 3 restarts | exhaustive enumeration, and uniform random sampling for the success probability | 3 s | `06_qaoa_depth_study_depth.png`, `06_qaoa_depth_study_distribution.png` |
-| `07_solver_benchmark.py` | Unit commitment, islanding, and PMU placement together | depth-2 QAOA | exhaustive enumeration, simulated annealing, and uniform random sampling, 3 seeds each | 19 s | `07_solver_benchmark_gap.png` |
+| `07_solver_benchmark.py` | Unit commitment, islanding, and PMU placement together | depth-2 QAOA | exhaustive enumeration, simulated annealing, tabu search, parallel tempering, and random sampling with and without greedy repair, 3 seeds each | 20 s | `07_solver_benchmark_gap.png` |
 | `08_quantum_kernel_screening.py` | N-1 security screening of the WSCC 9-bus system | fidelity quantum kernel with the ZZ feature map, over 3 bandwidths and 2 depths | RBF kernel with the median heuristic, same classifier | 1 s | `08_quantum_kernel_screening_bandwidth.png`, `08_quantum_kernel_screening_gram.png` |
 | `09_qbm_wind_scenarios.py` | Wind scenario generation over a 5-period horizon | quantum Boltzmann machine, transverse-field Ising, exact diagonalization | empirical means and neighbor correlations of the 300 training profiles | 1 s | `09_qbm_wind_scenarios_training.png`, `09_qbm_wind_scenarios_statistics.png` |
 | `10_hybrid_newton_vqls.py` | AC power flow of the 3-bus microgrid `toy3` | VQLS inside every Newton-Raphson iteration | Newton-Raphson with an LU inner solve | 3 s | `10_hybrid_newton_vqls_convergence.png`, `10_hybrid_newton_vqls_network.png` |
 | `11_cross_library_benchmark.py` | Unit commitment, islanding, and PMU placement together | depth-2 QAOA in two implementations (built-in statevector, qiskit-optimization) | dimod exhaustive enumeration and Ocean simulated annealing, 3 seeds each | 25 s | `11_cross_library_benchmark.png` |
+| `12_constraint_handling_study.py` | PMU placement (PJM 5-bus) and unit commitment (2 units, 2 periods) | slack vs unbalanced inequality penalties; fixed penalty vs augmented Lagrangian; greedy repair | exhaustive enumeration over both encodings, feasible-set enumeration for the Lagrangian | 10 s | — |
+| `13_qaoa_variants_study.py` | Islanding (9-bus and 14-bus) and a 2-unit one-hot dispatch | warm-start QAOA, XY (one-hot) mixer, fixed transferred angles | exact optimum everywhere; simulated annealing as the warm starter | 10 s | — |
 
 ## What each script measures
 
@@ -68,10 +70,14 @@ rises from 0.90% to 1.27%, against 0.39% for uniform random sampling.
 
 **07** runs the loop that a benchmark paper reports: problems by solvers by
 seeds, into a tidy DataFrame, a summary table, a LaTeX table, and a pinned run
-configuration. Simulated annealing reaches the exact optimum on all three
-problems. QAOA fails on unit commitment, where the constraint penalties stretch
-the QUBO energy range to 709,000 while the cost difference between the best and
-the second-best schedule is 30.
+configuration. Every classical heuristic — simulated annealing, tabu search,
+parallel tempering — reaches the exact optimum on all three problems. QAOA
+fails on unit commitment, where the constraint penalties stretch the QUBO
+coefficients far beyond the $30 cost difference between the best and the
+second-best schedule; script 12 measures that stretch with
+`QUBO.dynamic_range()`. Greedy repair turns random sampling into an exact
+solver on unit commitment and changes nothing on the two problems where
+uniform samples are already feasible.
 
 **08** shows that the angle range the features are scaled into decides the
 result. Test accuracy runs from 1.000 to 0.500 across the settings tried, while
@@ -95,6 +101,24 @@ and qiskit-optimization's QAOA lands on the same islanding objective as the
 built-in implementation on 2 of 3 seeds. Needs the `dwave` and `qiskit`
 extras; a missing one is skipped with a note, and the script still validates
 what remains.
+
+**12** measures what each constraint-handling method costs and buys, on the
+same problems. Unbalanced penalties solve PMU placement with 5 qubits instead
+of 15 and lift depth-2 QAOA success probability from 0.001 to 0.54; the
+augmented Lagrangian reaches the feasible unit commitment optimum (cost
+$2908) in 3 outer iterations while keeping the QUBO coefficient range at 180
+against 3.9e3 for the fixed penalty; random sampling plus greedy repair
+reaches gap 0 on both problems. Papers: Lucas 2014, Montanez-Barrera 2024,
+Hong 2025, Feng 2023, Gaidai 2026.
+
+**13** reproduces three published QAOA modifications and measures each on a
+bundled problem: warm starting at the simulated-annealing answer lifts
+depth-1 success probability on 9-bus islanding from 0.009 to 0.128 (Egger
+2021, Salgado 2024); the XY mixer holds 100% of the one-hot dispatch
+distribution feasible with gap 0 where the penalty encoding holds 22% (Wang
+2020, Mohseni 2026); depth-1 angles transferred from the 9-bus to the 14-bus
+islanding land within 5% of the fully optimized expectation at 1 circuit
+evaluation instead of 929 (Jing 2023).
 
 ## Notes on two choices
 

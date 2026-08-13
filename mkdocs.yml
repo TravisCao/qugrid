@@ -71,6 +71,7 @@ nav:
   - Research practice:
       - Honest benchmarking: honest-benchmarking.md
       - Cross-library benchmark: cross-library.md
+      - Methods from the literature: methods.md
       - FAQ: faq.md
   - API reference: api.md
   - Contributing: contributing.md

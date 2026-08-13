@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "qugrid"
-version = "0.1.0"
+version = "0.2.0"
 description = "Quantum computing for power system research: from a MATPOWER case to a quantum algorithm in three lines."
 readme = "README.md"
 license = { text = "MIT" }
