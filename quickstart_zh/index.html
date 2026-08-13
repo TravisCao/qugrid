@@ -969,9 +969,10 @@
 
 <h1 id="_1">十分钟上手</h1>
 <h2 id="_2">安装</h2>
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>qugrid<span class="w">            </span><span class="c1"># 核心依赖只有 NumPy、SciPy、matplotlib、pandas,不需要任何量子 SDK</span>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/TravisCao/qugrid<span class="w">  </span><span class="c1"># 核心依赖只有 NumPy、SciPy、matplotlib、pandas,不需要任何量子 SDK</span>
 </code></pre></div>
-<p>使用 <a href="https://docs.astral.sh/uv/">uv</a> 则执行 <code>uv add qugrid</code>。可选生态通过 extras 安装:<code>qugrid[qiskit]</code>、<code>qugrid[dwave]</code>、<code>qugrid[pennylane]</code>、<code>qugrid[pandapower]</code>,或一次装全 <code>qugrid[all]</code>。</p>
+<p>PyPI 发布已在计划中;发布后命令简化为 <code>pip install qugrid</code>。</p>
+<p>使用 <a href="https://docs.astral.sh/uv/">uv</a> 则执行 <code>uv add "qugrid @ git+https://github.com/TravisCao/qugrid"</code>。可选生态通过 extras 安装:<code>qugrid[qiskit]</code>、<code>qugrid[dwave]</code>、<code>qugrid[pennylane]</code>、<code>qugrid[pandapower]</code>,或一次装全 <code>qugrid[all]</code>。</p>
 <p>检查安装:</p>
 <div class="highlight"><pre><span></span><code>qugrid<span class="w"> </span>doctor
 </code></pre></div>

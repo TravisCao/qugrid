@@ -969,9 +969,10 @@
 
 <h1 id="10-minute-quickstart">10-minute quickstart</h1>
 <h2 id="install">Install</h2>
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>qugrid<span class="w">            </span><span class="c1"># core: NumPy, SciPy, matplotlib, pandas — no quantum SDK</span>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/TravisCao/qugrid<span class="w">  </span><span class="c1"># core: NumPy, SciPy, matplotlib, pandas — no quantum SDK</span>
 </code></pre></div>
-<p>Or with <a href="https://docs.astral.sh/uv/">uv</a>: <code>uv add qugrid</code>. Optional stacks come as extras: <code>qugrid[qiskit]</code>, <code>qugrid[dwave]</code>, <code>qugrid[pennylane]</code>, <code>qugrid[pandapower]</code>, or <code>qugrid[all]</code>.</p>
+<p>A PyPI release is planned. After it lands, the command shortens to <code>pip install qugrid</code>.</p>
+<p>Or with <a href="https://docs.astral.sh/uv/">uv</a>: <code>uv add "qugrid @ git+https://github.com/TravisCao/qugrid"</code>. Optional stacks come as extras: <code>qugrid[qiskit]</code>, <code>qugrid[dwave]</code>, <code>qugrid[pennylane]</code>, <code>qugrid[pandapower]</code>, or <code>qugrid[all]</code>.</p>
 <p>Check the install:</p>
 <div class="highlight"><pre><span></span><code>qugrid<span class="w"> </span>doctor
 </code></pre></div>
