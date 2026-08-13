@@ -797,6 +797,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../cross-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-library benchmark
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../faq/" class="md-nav__link">
         
   
@@ -900,7 +928,7 @@
 
 
 <h1 id="example-zoo">Example zoo</h1>
-<p>Ten single-file studies in <code>examples/</code>, in the spirit of CleanRL: each is self-contained, seeded, runnable in minutes, ends by validating its own claim against a classical reference, and saves its figures to <code>examples/figures/</code>.</p>
+<p>Eleven single-file studies in <code>examples/</code>, in the spirit of CleanRL: each is self-contained, seeded, runnable in minutes, ends by validating its own claim against a classical reference, and saves its figures to <code>examples/figures/</code>.</p>
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>examples/03_islanding_case9.py
 </code></pre></div>
 <table>
@@ -983,6 +1011,13 @@
 <td>AC power flow</td>
 <td>VQLS inner solves</td>
 <td>Newton–Raphson</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>11_cross_library_benchmark</code></td>
+<td>UC + islanding + PMU</td>
+<td>QAOA in two implementations</td>
+<td>dimod exact + Ocean SA, same <code>Result</code>; emits LaTeX table</td>
 </tr>
 </tbody>
 </table>

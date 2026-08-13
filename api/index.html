@@ -739,6 +739,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../cross-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-library benchmark
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../faq/" class="md-nav__link">
         
   
@@ -1649,6 +1677,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#qugrid.adapters.solve_dimod_exact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        solve_dimod_exact
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qugrid.adapters.solve_dwave_sa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        solve_dwave_sa
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qugrid.adapters.solve_qiskit_qaoa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        solve_qiskit_qaoa
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#qugrid.adapters.to_pennylane_hamiltonian" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1762,20 +1823,14 @@ print(res.summary())</p>
 <p><code>solver="auto"</code> picks a sensible default: QAOA for small combinatorial
 problems, simulated annealing beyond statevector reach; HHL for small
 linear systems, exact algebra beyond.</p>
+<p>QUBO problems also accept the external stacks — <code>"dimod-exact"</code>,
+<code>"dwave-sa"</code>, <code>"qiskit-qaoa"</code> — which return the same
+:class:<code>Result</code> and need the matching extra installed.</p>
 
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/qugrid/solvers/__init__.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span>
 <span class="normal">49</span>
@@ -1801,7 +1856,20 @@ linear systems, exact algebra beyond.</p>
 <span class="normal">69</span>
 <span class="normal">70</span>
 <span class="normal">71</span>
-<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">:</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Solve any QuGrid problem with any registered solver.</span>
 
 <span class="sd">    &gt;&gt;&gt; import qugrid as qg</span>
@@ -1812,6 +1880,10 @@ linear systems, exact algebra beyond.</p>
 <span class="sd">    ``solver=&quot;auto&quot;`` picks a sensible default: QAOA for small combinatorial</span>
 <span class="sd">    problems, simulated annealing beyond statevector reach; HHL for small</span>
 <span class="sd">    linear systems, exact algebra beyond.</span>
+
+<span class="sd">    QUBO problems also accept the external stacks — ``&quot;dimod-exact&quot;``,</span>
+<span class="sd">    ``&quot;dwave-sa&quot;``, ``&quot;qiskit-qaoa&quot;`` — which return the same</span>
+<span class="sd">    :class:`Result` and need the matching extra installed.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">CombinatorialProblem</span><span class="p">):</span>
         <span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;qubo&quot;</span>
@@ -7182,6 +7254,10 @@ noise models, annealing hardware, or autodiff, export the <em>same</em> problem:
 <li>:func:<code>to_bqm</code> / :func:<code>result_from_sampleset</code> — D-Wave Ocean (dimod)</li>
 <li>:func:<code>to_pennylane_hamiltonian</code> — Xanadu PennyLane</li>
 </ul>
+<p>The same bridges also run in the other direction: :mod:<code>external solvers
+&lt;qugrid.adapters.external_solvers&gt;</code> hand the problem to a vendor solver and
+return the standard :class:<code>~qugrid.solvers.base.Result</code>, so
+<code>qg.solve(problem, solver="dwave-sa")</code> reads like any built-in solver.</p>
 <p>Each function imports its ecosystem lazily and raises a clear message naming
 the extra to install (<code>pip install qugrid[qiskit]</code> and friends).</p>
 
@@ -7316,6 +7392,279 @@ result = result_from_sampleset(prob, sampleset)
         <span class="k">if</span> <span class="n">qubo</span><span class="o">.</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">dimod</span><span class="o">.</span><span class="n">BinaryQuadraticModel</span><span class="p">(</span><span class="n">linear</span><span class="p">,</span> <span class="n">quadratic</span><span class="p">,</span> <span class="n">qubo</span><span class="o">.</span><span class="n">offset</span><span class="p">,</span> <span class="n">vartype</span><span class="o">=</span><span class="n">dimod</span><span class="o">.</span><span class="n">BINARY</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="qugrid.adapters.solve_dimod_exact" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">solve_dimod_exact</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="o">**</span><span class="n">_ignored</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Exhaustive enumeration with <code>dimod.ExactSolver</code> (n &lt;= 24).</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/qugrid/adapters/external_solvers.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">solve_dimod_exact</span><span class="p">(</span><span class="n">problem</span><span class="p">:</span> <span class="n">CombinatorialProblem</span><span class="p">,</span> <span class="o">**</span><span class="n">_ignored</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exhaustive enumeration with ``dimod.ExactSolver`` (n &lt;= 24).&quot;&quot;&quot;</span>
+    <span class="n">_require</span><span class="p">(</span><span class="s2">&quot;dimod&quot;</span><span class="p">,</span> <span class="s2">&quot;dwave&quot;</span><span class="p">)</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">dimod</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qugrid.adapters.dimod_adapter</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_bqm</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">qubo</span><span class="o">.</span><span class="n">n</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="n">MAX_EXACT_VARS</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;refusing to enumerate 2^</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> states&quot;</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Result</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s2">&quot;dimod-exact&quot;</span><span class="p">,</span> <span class="n">problem</span><span class="o">=</span><span class="n">problem</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">timed</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">resources</span><span class="p">):</span>
+        <span class="n">sampleset</span> <span class="o">=</span> <span class="n">dimod</span><span class="o">.</span><span class="n">ExactSolver</span><span class="p">()</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">to_bqm</span><span class="p">(</span><span class="n">problem</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">_bits_from_sample</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">sampleset</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">sample</span><span class="p">)</span>
+    <span class="n">finish_combinatorial</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">problem</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">resources</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;n_vars&quot;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span> <span class="s2">&quot;states_enumerated&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">sampleset</span><span class="p">)})</span>
+    <span class="k">return</span> <span class="n">attach_reference</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">problem</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="qugrid.adapters.solve_dwave_sa" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">solve_dwave_sa</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">num_reads</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">num_sweeps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">_ignored</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Simulated annealing with <code>dwave.samplers.SimulatedAnnealingSampler</code>.</p>
+<p>The Ocean stack's production annealer (C++ inner loop), run on the same
+QUBO as the built-in <code>"sa"</code> so the two are directly comparable.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/qugrid/adapters/external_solvers.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">solve_dwave_sa</span><span class="p">(</span>
+    <span class="n">problem</span><span class="p">:</span> <span class="n">CombinatorialProblem</span><span class="p">,</span>
+    <span class="n">num_reads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">num_sweeps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">_ignored</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simulated annealing with ``dwave.samplers.SimulatedAnnealingSampler``.</span>
+
+<span class="sd">    The Ocean stack&#39;s production annealer (C++ inner loop), run on the same</span>
+<span class="sd">    QUBO as the built-in ``&quot;sa&quot;`` so the two are directly comparable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_require</span><span class="p">(</span><span class="s2">&quot;dwave.samplers&quot;</span><span class="p">,</span> <span class="s2">&quot;dwave&quot;</span><span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dwave.samplers</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulatedAnnealingSampler</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qugrid.adapters.dimod_adapter</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_bqm</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Result</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s2">&quot;dwave-sa&quot;</span><span class="p">,</span> <span class="n">problem</span><span class="o">=</span><span class="n">problem</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">timed</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">resources</span><span class="p">):</span>
+        <span class="n">sampleset</span> <span class="o">=</span> <span class="n">SimulatedAnnealingSampler</span><span class="p">()</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+            <span class="n">to_bqm</span><span class="p">(</span><span class="n">problem</span><span class="p">),</span> <span class="n">num_reads</span><span class="o">=</span><span class="n">num_reads</span><span class="p">,</span> <span class="n">num_sweeps</span><span class="o">=</span><span class="n">num_sweeps</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span>
+        <span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">_bits_from_sample</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">sampleset</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">sample</span><span class="p">)</span>
+    <span class="n">finish_combinatorial</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">problem</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">resources</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;n_vars&quot;</span><span class="p">:</span> <span class="n">problem</span><span class="o">.</span><span class="n">qubo</span><span class="o">.</span><span class="n">n</span><span class="p">,</span>
+            <span class="s2">&quot;num_reads&quot;</span><span class="p">:</span> <span class="n">num_reads</span><span class="p">,</span>
+            <span class="s2">&quot;num_sweeps&quot;</span><span class="p">:</span> <span class="n">num_sweeps</span><span class="p">,</span>
+            <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="n">seed</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">attach_reference</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">problem</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="qugrid.adapters.solve_qiskit_qaoa" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">solve_qiskit_qaoa</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">reps</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">_ignored</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>QAOA through qiskit-optimization's <code>MinimumEigenOptimizer</code>.</p>
+<p>Shot-based sampling on Qiskit's statevector primitive, COBYLA outer
+loop. Slower than the built-in <code>"qaoa"</code> by two orders of magnitude at
+the same depth — the point is that a second implementation of the same
+algorithm lands on the same objective.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/qugrid/adapters/external_solvers.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">solve_qiskit_qaoa</span><span class="p">(</span>
+    <span class="n">problem</span><span class="p">:</span> <span class="n">CombinatorialProblem</span><span class="p">,</span>
+    <span class="n">reps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">_ignored</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;QAOA through qiskit-optimization&#39;s ``MinimumEigenOptimizer``.</span>
+
+<span class="sd">    Shot-based sampling on Qiskit&#39;s statevector primitive, COBYLA outer</span>
+<span class="sd">    loop. Slower than the built-in ``&quot;qaoa&quot;`` by two orders of magnitude at</span>
+<span class="sd">    the same depth — the point is that a second implementation of the same</span>
+<span class="sd">    algorithm lands on the same objective.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_require</span><span class="p">(</span><span class="s2">&quot;qiskit_optimization&quot;</span><span class="p">,</span> <span class="s2">&quot;qiskit&quot;</span><span class="p">)</span>
+    <span class="n">_require</span><span class="p">(</span><span class="s2">&quot;qiskit_algorithms&quot;</span><span class="p">,</span> <span class="s2">&quot;qiskit&quot;</span><span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qiskit.primitives</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatevectorSampler</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qiskit.transpiler.preset_passmanagers</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_preset_pass_manager</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qiskit_algorithms</span><span class="w"> </span><span class="kn">import</span> <span class="n">QAOA</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qiskit_algorithms.optimizers</span><span class="w"> </span><span class="kn">import</span> <span class="n">COBYLA</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qiskit_algorithms.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">algorithm_globals</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qiskit_optimization.algorithms</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinimumEigenOptimizer</span>
+
+    <span class="n">algorithm_globals</span><span class="o">.</span><span class="n">random_seed</span> <span class="o">=</span> <span class="n">seed</span>  <span class="c1"># fixes QAOA&#39;s random initial angles</span>
+    <span class="n">evaluations</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Result</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s2">&quot;qiskit-qaoa&quot;</span><span class="p">,</span> <span class="n">problem</span><span class="o">=</span><span class="n">problem</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">timed</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">resources</span><span class="p">):</span>
+        <span class="c1"># The QAOA ansatz carries a PauliEvolutionGate. Synthesizing it once</span>
+        <span class="c1"># through a pass manager, rather than at every objective call inside</span>
+        <span class="c1"># the sampler, is worth two orders of magnitude in wall time.</span>
+        <span class="n">passes</span> <span class="o">=</span> <span class="n">generate_preset_pass_manager</span><span class="p">(</span>
+            <span class="n">optimization_level</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">basis_gates</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;rx&quot;</span><span class="p">,</span> <span class="s2">&quot;rz&quot;</span><span class="p">,</span> <span class="s2">&quot;cx&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span>
+            <span class="n">StatevectorSampler</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">),</span>
+            <span class="n">COBYLA</span><span class="p">(</span><span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">),</span>
+            <span class="n">reps</span><span class="o">=</span><span class="n">reps</span><span class="p">,</span>
+            <span class="n">transpiler</span><span class="o">=</span><span class="n">passes</span><span class="p">,</span>
+            <span class="n">callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">count</span><span class="p">,</span> <span class="o">*</span><span class="n">_rest</span><span class="p">:</span> <span class="n">evaluations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">count</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">MinimumEigenOptimizer</span><span class="p">(</span><span class="n">qaoa</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">_quadratic_program</span><span class="p">(</span><span class="n">problem</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">finish_combinatorial</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">problem</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">resources</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;n_qubits&quot;</span><span class="p">:</span> <span class="n">problem</span><span class="o">.</span><span class="n">qubo</span><span class="o">.</span><span class="n">n</span><span class="p">,</span>
+            <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="n">reps</span><span class="p">,</span>
+            <span class="s2">&quot;evaluations&quot;</span><span class="p">:</span> <span class="n">evaluations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">evaluations</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="n">seed</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">attach_reference</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">problem</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
