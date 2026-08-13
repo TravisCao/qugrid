@@ -102,11 +102,12 @@ def test_statevector_norm_preserved():
 
 def test_qaoa_state_matches_bruteforce_unitary():
     """One QAOA layer against explicit matrix algebra on 2 qubits."""
+    from qugrid.solvers.mixers import XMixer
     from qugrid.solvers.qaoa import _qaoa_state
 
     h = np.array([0.3, -1.2, 0.7, 2.0])
     gamma, beta = 0.9, 0.4
-    psi = _qaoa_state(np.array([gamma]), np.array([beta]), h, 2)
+    psi = _qaoa_state(np.array([gamma]), np.array([beta]), h, 2, XMixer())
 
     x = np.array([[0, 1], [1, 0]])
     rx = np.cos(beta) * np.eye(2) - 1j * np.sin(beta) * x

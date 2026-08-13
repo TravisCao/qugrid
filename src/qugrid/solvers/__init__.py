@@ -23,7 +23,8 @@ from qugrid.solvers.kernel import (
     rbf_kernel,
     scale_features,
 )
-from qugrid.solvers.qaoa import solve_qaoa
+from qugrid.solvers.mixers import WarmStartMixer, XMixer, XYMixer
+from qugrid.solvers.qaoa import relaxed_solution, solve_qaoa
 from qugrid.solvers.qbm import QuantumBoltzmannMachine
 from qugrid.solvers.repair import greedy_repair, repair_result, solve_random_repair
 from qugrid.solvers.vqe import solve_vqe
@@ -129,6 +130,10 @@ __all__ = [
     "solve_tabu",
     "solve_pt",
     "solve_qaoa",
+    "relaxed_solution",
+    "XMixer",
+    "WarmStartMixer",
+    "XYMixer",
     "solve_vqe",
     "solve_hhl",
     "solve_vqls",

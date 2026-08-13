@@ -69,6 +69,29 @@ def apply_ry(psi: np.ndarray, n: int, q: int, theta: float) -> np.ndarray:
     return psi
 
 
+def apply_rz(psi: np.ndarray, n: int, q: int, phi: float) -> np.ndarray:
+    """Standard Rz(phi) = diag(exp(-i phi/2), exp(+i phi/2)) on qubit ``q``."""
+    v = _as3(psi, n, q)
+    v[:, 0, :] *= np.exp(-0.5j * phi)
+    v[:, 1, :] *= np.exp(+0.5j * phi)
+    return psi
+
+
+def apply_unitary(psi: np.ndarray, n: int, qubits: list[int], u: np.ndarray) -> np.ndarray:
+    """Apply a ``2^k x 2^k`` unitary to ``qubits`` (little-endian row index).
+
+    Row/column index bit ``j`` of ``u`` addresses ``qubits[j]``, matching the
+    global convention that variable ``i`` is bit ``i`` of the basis index.
+    """
+    k = len(qubits)
+    axes = [n - 1 - q for q in reversed(qubits)]  # front-flatten -> little-endian
+    t = np.moveaxis(psi.reshape([2] * n), axes, range(k)).reshape(2**k, -1)
+    t = u @ t
+    t = np.moveaxis(t.reshape([2] * n), range(k), axes)
+    psi[:] = t.reshape(-1)
+    return psi
+
+
 def apply_h_all(psi: np.ndarray, n: int) -> np.ndarray:
     inv = 1 / np.sqrt(2)
     for q in range(n):
