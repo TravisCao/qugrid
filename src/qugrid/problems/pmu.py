@@ -80,6 +80,10 @@ class PMUPlacement(CombinatorialProblem):
     def is_feasible(self, x: np.ndarray) -> bool:
         return bool(self.coverage(x).all())
 
+    def constraint_residual(self, x: np.ndarray) -> float:
+        """Number of buses the placement bits in ``x`` leave unobserved."""
+        return float((~self.coverage(x)).sum())
+
     def reference(self) -> dict:
         """Exact minimum dominating set by enumeration over placement bits.
 

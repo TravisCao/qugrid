@@ -166,6 +166,13 @@ class UnitCommitment(CombinatorialProblem):
         balance = power.sum(axis=0) - self.demand
         return gate_ok and bool(np.abs(balance).max() <= self.balance_tol)
 
+    def constraint_residual(self, x: np.ndarray) -> float:
+        """MW of violation: imbalance beyond tolerance plus gated-off power."""
+        commit, power = self._split(x)
+        balance = np.abs(power.sum(axis=0) - self.demand)
+        gate = float(power[commit == 0].sum())
+        return float(np.maximum(balance - self.balance_tol, 0.0).sum() + gate)
+
     # -------------------------------------------------------------- baselines
     def continuous_reference(self) -> dict:
         """True UC optimum with continuous dispatch (enumeration + exact ED)."""

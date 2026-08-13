@@ -24,6 +24,7 @@ from qugrid.solvers.kernel import (
 )
 from qugrid.solvers.qaoa import solve_qaoa
 from qugrid.solvers.qbm import QuantumBoltzmannMachine
+from qugrid.solvers.repair import greedy_repair, repair_result, solve_random_repair
 from qugrid.solvers.vqe import solve_vqe
 from qugrid.solvers.vqls import solve_vqls
 
@@ -31,6 +32,7 @@ from qugrid.solvers.vqls import solve_vqls
 REGISTRY: dict[str, tuple[Any, str]] = {
     "exact": (solve_exact_qubo, "qubo"),
     "random": (solve_random, "qubo"),
+    "random+repair": (solve_random_repair, "qubo"),
     "sa": (solve_sa, "qubo"),
     "qaoa": (solve_qaoa, "qubo"),
     "vqe": (solve_vqe, "qubo"),
@@ -44,7 +46,7 @@ REGISTRY: dict[str, tuple[Any, str]] = {
 }
 
 
-def solve(problem, solver: str = "auto", **kwargs) -> Result:
+def solve(problem, solver: str = "auto", repair: str | None = None, **kwargs) -> Result:
     """Solve any QuGrid problem with any registered solver.
 
     >>> import qugrid as qg
@@ -55,6 +57,12 @@ def solve(problem, solver: str = "auto", **kwargs) -> Result:
     ``solver="auto"`` picks a sensible default: QAOA for small combinatorial
     problems, simulated annealing beyond statevector reach; HHL for small
     linear systems, exact algebra beyond.
+
+    ``repair="greedy"`` post-processes a combinatorial result with
+    :func:`qugrid.solvers.greedy_repair`: the answer bitstring — and, for
+    solvers that report an output distribution, every top state — is
+    repaired toward feasibility, and ``P(optimum | repaired)`` lands in
+    ``result.extras`` next to the raw ``P(optimum)``.
 
     QUBO problems also accept the external stacks — ``"dimod-exact"``,
     ``"dwave-sa"``, ``"qiskit-qaoa"`` — which return the same
@@ -94,7 +102,14 @@ def solve(problem, solver: str = "auto", **kwargs) -> Result:
             f"solver {solver!r} does not apply to {type(problem).__name__}; "
             f"options: {options}"
         )
-    return fn(problem, **kwargs)
+    res = fn(problem, **kwargs)
+    if repair is not None:
+        if kind != "qubo":
+            raise ValueError("repair applies to combinatorial problems only")
+        if repair != "greedy":
+            raise ValueError(f"unknown repair {repair!r}; the only option is 'greedy'")
+        repair_result(res, problem)
+    return res
 
 
 __all__ = [
@@ -104,6 +119,9 @@ __all__ = [
     "solve_exact_qubo",
     "solve_linear_exact",
     "solve_random",
+    "solve_random_repair",
+    "greedy_repair",
+    "repair_result",
     "solve_sa",
     "solve_qaoa",
     "solve_vqe",

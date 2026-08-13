@@ -73,6 +73,9 @@ class Result:
         sp = self.success_probability()
         if sp is not None:
             lines.append(f"  P(optimum)         {sp:.3f}")
+        pr = self.extras.get("p_optimum_repaired")
+        if pr is not None:
+            lines.append(f"  P(opt | repaired)  {pr:.3f}")
         for key, val in self.decoded.items():
             if isinstance(val, (int, float, np.floating)):
                 lines.append(f"  {key:<18} {val:,.6g}")

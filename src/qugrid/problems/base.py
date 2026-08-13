@@ -161,6 +161,17 @@ class CombinatorialProblem(ABC):
     def is_feasible(self, x: np.ndarray) -> bool:
         """Check the original (pre-penalty) constraints."""
 
+    def constraint_residual(self, x: np.ndarray) -> float:
+        """Scalar violation of the original constraints; 0 means feasible.
+
+        The default is the ``0/1`` indicator from :meth:`is_feasible`.
+        Formulations override it with a graded measure where one is cheap
+        (unit commitment: MW of imbalance; PMU placement: uncovered buses),
+        because :func:`qugrid.solvers.greedy_repair` descends this number
+        one bit flip at a time.
+        """
+        return 0.0 if self.is_feasible(x) else 1.0
+
     def reference(self) -> dict:
         """Classical reference optimum (exhaustive over the QUBO by default)."""
         energies = self.qubo.to_ising().all_energies()

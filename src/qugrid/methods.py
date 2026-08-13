@@ -75,6 +75,9 @@ class ConstrainedQUBOProblem(CombinatorialProblem):
         r = self.residuals(x)
         return bool(r.size == 0 or np.abs(r).max() <= self.tol)
 
+    def constraint_residual(self, x: np.ndarray) -> float:
+        return float(np.abs(self.residuals(x)).sum())
+
     def reference(self) -> dict:
         if self.n > 20:
             raise ValueError("feasible enumeration limited to 20 variables")
