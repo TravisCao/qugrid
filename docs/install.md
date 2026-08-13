@@ -7,13 +7,15 @@ Python 3.10 or newer. The core depends only on NumPy, SciPy, matplotlib, and pan
 ## Standard install
 
 ```bash
-pip install qugrid
+pip install git+https://github.com/TravisCao/qugrid
 ```
+
+A PyPI release is planned. After it lands, the command shortens to `pip install qugrid`.
 
 With [uv](https://docs.astral.sh/uv/) (recommended for research projects):
 
 ```bash
-uv add qugrid
+uv add "qugrid @ git+https://github.com/TravisCao/qugrid"
 ```
 
 ## Optional extras

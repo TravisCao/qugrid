@@ -94,7 +94,9 @@ print("generation per bus [MW]", mine.gen_p_per_bus())
 # Two more routes exist and need no explanation beyond the call itself:
 #
 # * `Network.from_pandapower(pp_net)` converts a pandapower network. It requires
-#   `pip install qugrid[pandapower]`, so it is not executed here.
+#   `pip install "qugrid[pandapower] @ git+https://github.com/TravisCao/qugrid"`,
+#   so it is not executed here. After the planned PyPI release, the command
+#   shortens to `pip install qugrid[pandapower]`.
 # * `net.to_ppc()` exports a PYPOWER-compatible dict, and `Network.from_ppc(ppc)`
 #   reads one back. The round trip is lossless, which is the check below.
 
