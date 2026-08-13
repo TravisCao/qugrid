@@ -17,7 +17,7 @@ Layers (each usable on its own):
 * :mod:`qugrid.bench` / :mod:`qugrid.viz` — paper-ready experiments and plots.
 """
 
-from qugrid import adapters, bench, cases, classical, problems, solvers, viz
+from qugrid import adapters, bench, cases, classical, methods, problems, solvers, viz
 from qugrid._version import __version__
 from qugrid.network import Network
 from qugrid.solvers import Result, solve
@@ -33,5 +33,6 @@ __all__ = [
     "classical",
     "adapters",
     "bench",
+    "methods",
     "viz",
 ]

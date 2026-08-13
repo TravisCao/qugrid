@@ -119,6 +119,27 @@ class QUBO:
     def bits_from_index(self, k: int) -> np.ndarray:
         return np.array([(k >> i) & 1 for i in range(self.n)], dtype=int)
 
+    def dynamic_range(self, db: bool = False) -> float:
+        """``max|coef| / min nonzero |coef|`` over the energy coefficients.
+
+        Coefficients are the linear terms ``Q_ii`` and the pair couplings
+        ``2 Q_ij`` (i < j); the offset shifts every energy equally and is
+        excluded. Penalty-folded formulations stretch this ratio, and
+        sampling solvers stop resolving the costs underneath: the 2-unit
+        unit commitment study's penalized QUBO measures 3.9e3 here, and
+        example 07 documents the QAOA success-probability collapse on it.
+        ``db=True`` returns ``20 log10`` of the ratio. A QUBO with no
+        nonzero coefficient reports 1 (0 dB).
+        """
+        lin = np.abs(np.diag(self.q))
+        pairs = 2.0 * np.abs(self.q[np.triu_indices(self.n, k=1)])
+        coefs = np.concatenate([lin, pairs])
+        nonzero = coefs[coefs > 0.0]
+        if nonzero.size == 0:
+            return 0.0 if db else 1.0
+        ratio = float(nonzero.max() / nonzero.min())
+        return float(20.0 * np.log10(ratio)) if db else ratio
+
 
 class CombinatorialProblem(ABC):
     """A power system decision problem encoded as a QUBO.

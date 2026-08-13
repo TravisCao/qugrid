@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import warnings
 from typing import Any
 
 from qugrid.adapters.external_solvers import (
@@ -63,6 +64,17 @@ def solve(problem, solver: str = "auto", **kwargs) -> Result:
         kind = "qubo"
         if solver == "auto":
             solver = "qaoa" if problem.n <= 16 else "sa"
+        if solver not in ("exact", "dimod-exact"):
+            dr = problem.qubo.dynamic_range()
+            if dr > 1e3:
+                warnings.warn(
+                    f"QUBO dynamic range is {dr:.2g} (>1e3): penalty terms dwarf the "
+                    "cost differences, and sampling solvers may not resolve them. "
+                    "Consider unbalanced penalties (QUBOBuilder.add_inequality) or "
+                    "qugrid.methods.AugmentedLagrangianLoop.",
+                    RuntimeWarning,
+                    stacklevel=2,
+                )
     elif isinstance(problem, LinearSystemProblem):
         kind = "linear"
         if solver == "auto":
