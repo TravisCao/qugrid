@@ -13,6 +13,7 @@ from qugrid.adapters.external_solvers import (
 from qugrid.problems.base import CombinatorialProblem, LinearSystemProblem
 from qugrid.solvers.annealing import solve_sa
 from qugrid.solvers.base import Result
+from qugrid.solvers.baselines import solve_pt, solve_tabu
 from qugrid.solvers.exact import solve_exact_qubo, solve_linear_exact, solve_random
 from qugrid.solvers.hhl import solve_hhl
 from qugrid.solvers.kernel import (
@@ -34,6 +35,8 @@ REGISTRY: dict[str, tuple[Any, str]] = {
     "random": (solve_random, "qubo"),
     "random+repair": (solve_random_repair, "qubo"),
     "sa": (solve_sa, "qubo"),
+    "tabu": (solve_tabu, "qubo"),
+    "pt": (solve_pt, "qubo"),
     "qaoa": (solve_qaoa, "qubo"),
     "vqe": (solve_vqe, "qubo"),
     "numpy": (solve_linear_exact, "linear"),
@@ -123,6 +126,8 @@ __all__ = [
     "greedy_repair",
     "repair_result",
     "solve_sa",
+    "solve_tabu",
+    "solve_pt",
     "solve_qaoa",
     "solve_vqe",
     "solve_hhl",

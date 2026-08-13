@@ -5,16 +5,18 @@ WHAT
       * unit commitment, 2 thermal units over 2 periods with startup costs;
       * controlled islanding of the WSCC 9-bus system;
       * minimum PMU placement for full observability of the PJM 5-bus system.
-    Each is encoded as a QUBO and given to four solvers: exhaustive
-    enumeration, simulated annealing, depth-2 QAOA, and uniform random
-    sampling. Every combination runs with seeds 0, 1, and 2.
+    Each is encoded as a QUBO and given to seven solvers: exhaustive
+    enumeration, simulated annealing, tabu search, parallel tempering,
+    depth-2 QAOA, uniform random sampling, and random sampling with greedy
+    repair. Every combination runs with seeds 0, 1, and 2.
 
 WHY QUANTUM
     A quantum optimizer is only interesting on a problem where it beats the
     classical methods that need no quantum hardware. This benchmark measures
-    that comparison directly. The result on these instances is that simulated
-    annealing matches the exact optimum everywhere at a fraction of a second,
-    and QAOA does not improve on it.
+    that comparison directly. The result on these instances is that every
+    classical heuristic — simulated annealing, tabu search, parallel
+    tempering — matches the exact optimum on every problem within 0.1 s,
+    and QAOA does not improve on any of them.
 
     PMU placement runs on the PJM 5-bus system, not the 9-bus system: the
     9-bus formulation needs 24 binaries (9 placement bits plus 15 slack bits)
@@ -24,13 +26,17 @@ EXPECTED OUTPUT
     A mean-and-spread summary, an engineering-units comparison, and a grouped
     bar figure of the mean optimality gap and the mean wall time. Results,
     summary, LaTeX table, and run configuration are written to
-    examples/runs/benchmark/. Simulated annealing reaches gap 0 on all three
-    problems in under 0.1 s. QAOA reaches gap 0 on islanding and on PMU
-    placement, and fails on unit commitment with a mean gap of 255%: the
-    constraint penalties stretch that QUBO energy range to 709,000 while the
-    cost difference between the best and the second-best schedule is 30, so
-    the rescaled cost Hamiltonian cannot separate them. Runtime is about 20
-    seconds.
+    examples/runs/benchmark/. Simulated annealing, tabu search, and parallel
+    tempering reach gap 0 on all three problems in under 0.1 s. QAOA reaches
+    gap 0 on islanding and on PMU placement, and fails on unit commitment
+    with a mean gap of 255%: the constraint penalties stretch that QUBO
+    energy range while the cost difference between the best and the
+    second-best schedule is 30, so the rescaled cost Hamiltonian cannot
+    separate them. Greedy repair turns random sampling into an exact solver
+    on unit commitment (gap 77% -> 0%) by walking every sample back to a
+    balanced schedule; on islanding and PMU placement it changes nothing,
+    because almost every uniform sample is already feasible there — repair
+    restores feasibility, it does not optimize. Runtime is about 20 seconds.
 """
 
 from __future__ import annotations
@@ -61,8 +67,11 @@ RUNDIR = Path(__file__).parent / "runs" / "benchmark"
 SOLVERS = {
     "exact": {},
     "sa": {},
+    "tabu": {},
+    "pt": {},
     "qaoa": {"p": 2},
     "random": {"samples": 256},
+    "random+repair": {"samples": 256},
 }
 
 # Engineering quantity reported per problem: decoded key, label, format.
@@ -143,7 +152,7 @@ def main() -> int:
     summary = bench.summarize(df)
 
     header = (
-        f"{'problem':<14}  {'solver':<7}  {'objective':>12}  {'std':>9}  "
+        f"{'problem':<14}  {'solver':<13}  {'objective':>12}  {'std':>9}  "
         f"{'gap %':>9}  {'feasible':>9}  {'P(opt) %':>9}  {'time s':>8}"
     )
     print(header)
@@ -152,7 +161,7 @@ def main() -> int:
         p_success = row["p_success_mean"]
         p_text = "n/a" if not np.isfinite(p_success) else f"{100 * p_success:.3f}"
         print(
-            f"{row['problem']:<14}  {row['solver']:<7}  {row['objective_mean']:>12,.3f}  "
+            f"{row['problem']:<14}  {row['solver']:<13}  {row['objective_mean']:>12,.3f}  "
             f"{row['objective_std']:>9,.3f}  {100 * row['gap_mean']:>9.2f}  "
             f"{100 * row['feasible_rate']:>8.0f}%  {p_text:>9}  {row['time_mean_s']:>8.4f}"
         )
@@ -160,7 +169,7 @@ def main() -> int:
     # --------------------------------------------- engineering-units comparison
     print("\nengineering units at seed 0 (exact enumeration is the baseline)")
     header = f"{'problem':<14}  {'metric':<16}"
-    header += "".join(f"{name:>12}" for name in SOLVERS)
+    header += "".join(f"{name:>15}" for name in SOLVERS)
     print(header)
     print("-" * len(header))
     for name, problem in problems.items():
@@ -170,7 +179,7 @@ def main() -> int:
             res = qg.solve(problem, solver=solver, seed=0, **opts)
             value = fmt.format(float(res.decoded[key]))
             cells.append(value if res.feasible else f"{value}*")
-        print(f"{name:<14}  {label:<16}" + "".join(f"{c:>12}" for c in cells))
+        print(f"{name:<14}  {label:<16}" + "".join(f"{c:>15}" for c in cells))
     print("* marks a solution that violates the original constraints.")
 
     # ----------------------------------------------------------------- artifacts
@@ -219,10 +228,10 @@ def main() -> int:
     )
 
     x = np.arange(len(order))
-    width = 0.2
+    width = 0.8 / len(solver_names)
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11.0, 4.2))
     for i, solver in enumerate(solver_names):
-        offset = (i - 1.5) * width
+        offset = (i - (len(solver_names) - 1) / 2) * width
         heights = np.maximum(gaps[i], 0.0)
         ax1.bar(
             x + offset,
@@ -260,7 +269,7 @@ def main() -> int:
     ax2.set_title("Cost of the answer")
     fig.suptitle(f"QuGrid solver benchmark, {len(list(SEEDS))} seeds per cell")
     handles, labels = ax1.get_legend_handles_labels()
-    fig.legend(handles, labels, loc="lower center", ncols=4, fontsize=9.5)
+    fig.legend(handles, labels, loc="lower center", ncols=len(solver_names), fontsize=9.0)
     fig.tight_layout(rect=(0, 0.07, 1, 1))
     fig.savefig(FIGDIR / "07_solver_benchmark_gap.png", dpi=150)
     plt.close(fig)
@@ -270,19 +279,20 @@ def main() -> int:
     exact_gaps = df.loc[df["solver"] == "exact", "gap"].to_numpy()
     assert np.all(np.abs(exact_gaps) < 1e-9), f"exact enumeration has a gap: {exact_gaps}"
     for prob in order:
-        sa_gap = summary.loc[
-            (summary["problem"] == prob) & (summary["solver"] == "sa"), "gap_mean"
-        ].iloc[0]
+        for solver in ("sa", "tabu", "pt"):
+            heuristic_gap = summary.loc[
+                (summary["problem"] == prob) & (summary["solver"] == solver), "gap_mean"
+            ].iloc[0]
+            assert abs(heuristic_gap) < 1e-9, (
+                f"{prob}: {solver} misses the optimum (mean gap {heuristic_gap:.4f})"
+            )
         rand_gap = summary.loc[
             (summary["problem"] == prob) & (summary["solver"] == "random"), "gap_mean"
         ].iloc[0]
-        assert sa_gap <= rand_gap + 1e-9, (
-            f"{prob}: simulated annealing ({sa_gap:.4f}) is worse than "
-            f"random sampling ({rand_gap:.4f})"
-        )
+        assert rand_gap > -1e-9, f"{prob}: random sampling beat the exact optimum"
     assert df["gap"].notna().all(), "some runs produced no optimality gap"
-    print("\nVALIDATION PASSED: exact enumeration has gap 0 everywhere, and simulated")
-    print("annealing is at least as good as random sampling on every problem.")
+    print("\nVALIDATION PASSED: exact enumeration has gap 0 everywhere, and every")
+    print("classical heuristic (sa, tabu, pt) matches the exact optimum on every problem.")
     return 0
 
 
